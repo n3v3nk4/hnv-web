@@ -1,11 +1,20 @@
-// app/layout.tsx
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Poppins, Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
-const inter = Inter({ subsets: ['latin'] })
+const poppins = Poppins({ 
+  subsets: ['latin'], 
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-poppins'
+})
+
+const inter = Inter({ 
+  subsets: ['latin'], 
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter'
+})
 
 export const metadata: Metadata = {
   title: 'HNV - Humanidad Nueva Visión',
@@ -19,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={`${inter.className} bg-white text-black`}>
+      <body className={`${poppins.variable} ${inter.variable} font-sans bg-gray-50 text-gray-900`}>
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />
