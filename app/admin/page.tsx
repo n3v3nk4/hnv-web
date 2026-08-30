@@ -4,9 +4,9 @@ import { supabase } from '@/lib/supabaseClient'
 import { LogOut, Users, Heart, Handshake, RefreshCw, Upload } from 'lucide-react'
 
 export default function Admin() {
-  const [members, setMembers] = useState<any[]>([])
-  const [donations, setDonations] = useState<any[]>([])
-  const [volunteers, setVolunteers] = useState<any[]>([])
+  const [members, setMembers] = useState([])
+  const [donations, setDonations] = useState([])
+  const [volunteers, setVolunteers] = useState([])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
@@ -66,14 +66,13 @@ export default function Admin() {
     setUploading(true)
     const fileName = `${Date.now()}_${file.name}`
 
-    // Dirección URL para supabase.storage
     const { error } = await supabase.storage.from('galeria').upload(fileName, file)
     if (!error) {
       alert('✅ Foto subida correctamente!')
       fetchAllData()
     } else {
       console.error('Error de Supabase:', error)
-      alert('❌ Foto subida correctamente!')
+      alert('❌ Error al subir la foto')
     }
     setUploading(false)
   }
@@ -114,7 +113,7 @@ export default function Admin() {
       </p>
 
       <div className="space-y-12">
-        <!-- Miembros -->
+        {/* Miembros */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
             <Users size={24} className="text-red-600" />
@@ -132,7 +131,7 @@ export default function Admin() {
                 </tr>
               </thead>
               <tbody>
-                {members.map((member) => (
+                {members.map((member: any) => (
                   <tr key={member.id} className="border-t hover:bg-gray-50 transition">
                     <td className="p-4">{member.full_name}</td>
                     <td className="p-4">{member.email}</td>
@@ -146,7 +145,7 @@ export default function Admin() {
           </div>
         </div>
 
-        <!-- Donaciones -->
+        {/* Donaciones */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
             <Heart size={24} className="text-red-600" />
@@ -164,7 +163,7 @@ export default function Admin() {
                 </tr>
               </thead>
               <tbody>
-                {donations.map((donation) => (
+                {donations.map((donation: any) => (
                   <tr key={donation.id} className="border-t hover:bg-gray-50 transition">
                     <td className="p-4">{donation.donor_name}</td>
                     <td className="p-4">{donation.email}</td>
@@ -178,7 +177,7 @@ export default function Admin() {
           </div>
         </div>
 
-        <!-- Voluntarios -->
+        {/* Voluntarios */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
             <Handshake size={24} className="text-red-600" />
@@ -195,7 +194,7 @@ export default function Admin() {
                 </tr>
               </thead>
               <tbody>
-                {volunteers.map((volunteer) => (
+                {volunteers.map((volunteer: any) => (
                   <tr key={volunteer.id} className="border-t hover:bg-gray-50 transition">
                     <td className="p-4">{volunteer.full_name}</td>
                     <td className="p-4">{volunteer.email}</td>
@@ -208,7 +207,7 @@ export default function Admin() {
           </div>
         </div>
 
-        <!-- Galería (Solo admin) -->
+        {/* Galería (Solo admin) */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
             <Upload size={24} className="text-red-600" />
