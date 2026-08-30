@@ -1,14 +1,17 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { LogOut, Users, RefreshCw } from 'lucide-react'
+import { LogOut, Users, Heart, Handshake, RefreshCw, Upload } from 'lucide-react'
 
 export default function Admin() {
   const [members, setMembers] = useState<any[]>([])
+  const [donations, setDonations] = useState<any[]>([])
+  const [volunteers, setVolunteers] = useState<any[]>([])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
   const [sessionEmail, setSessionEmail] = useState('')
+  const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
     checkSession()
@@ -19,7 +22,7 @@ export default function Admin() {
     if (session) {
       setLoggedIn(true)
       setSessionEmail(session.user.email || '')
-      fetchMembers()
+      fetchAllData()
     }
   }
 
@@ -29,7 +32,7 @@ export default function Admin() {
     if (!error) {
       setLoggedIn(true)
       setSessionEmail(email)
-      fetchMembers()
+      fetchAllData()
     } else {
       alert('Credenciales incorrectas')
     }
@@ -41,12 +44,38 @@ export default function Admin() {
       setLoggedIn(false)
       setSessionEmail('')
       setMembers([])
+      setDonations([])
+      setVolunteers([])
     }
   }
 
-  async function fetchMembers() {
-    const { data } = await supabase.from('members').select('*')
-    setMembers(data || [])
+  async function fetchAllData() {
+    const [membersRes, donationsRes, volunteersRes] = await Promise.all([
+      supabase.from('members').select('*'),
+      supabase.from('donations').select('*'),
+      supabase.from('volunteers').select('*')
+    ])
+    setMembers(membersRes.data || [])
+    setDonations(donationsRes.data || [])
+    setVolunteers(volunteersRes.data || [])
+  }
+
+  async function uploadImage(e: any) {
+    const file = e.target.files[0]
+    if (!file) return
+    setUploading(true)
+    const fileName = `${Date.now()}_${file.name}`
+
+    // Dirección URL para supabase.storage
+    const { error } = await supabase.storage.from('galeria').upload(fileName, file)
+    if (!error) {
+      alert('✅ Foto subida correctamente!')
+      fetchAllData()
+    } else {
+      console.error('Error de Supabase:', error)
+      alert('❌ Foto subida correctamente!')
+    }
+    setUploading(false)
   }
 
   if (!loggedIn) {
@@ -64,11 +93,11 @@ export default function Admin() {
   }
 
   return (
-    <div className="container mx-auto py-12 px-4">
+    <div className="container mx-auto py-16 px-4">
       <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold mb-4 md:mb-0">Miembros Registrados</h1>
+        <h1 className="text-4xl font-bold mb-4 md:mb-0">Panel de Administración</h1>
         <div className="flex gap-2">
-          <button onClick={fetchMembers} className="bg-gray-100 p-2 rounded-lg hover:bg-gray-200 transition">
+          <button onClick={fetchAllData} className="bg-gray-100 p-2 rounded-lg hover:bg-gray-200 transition">
             <RefreshCw size={18} />
           </button>
           <button onClick={logout} className="bg-red-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-red-700 transition">
@@ -84,51 +113,116 @@ export default function Admin() {
         <span className="font-bold">Sesión iniciada como:</span> {sessionEmail}
       </p>
 
-      <div className="overflow-x-auto">
-        <table className="w-full bg-white shadow-xl rounded-2xl overflow-hidden">
-          <thead>
-            <tr className="bg-gradient-to-r from-red-600 to-black text-white">
-              <th className="p-4 text-left">Nombre</th>
-              <th className="p-4 text-left">Email</th>
-              <th className="p-4 text-left">Plan</th>
-              <th className="p-4 text-left">Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {members.map((member) => (
-              <tr key={member.id} className="border-t hover:bg-gray-50 transition">
-                <td className="p-4">{member.full_name}</td>
-                <td className="p-4">{member.email}</td>
-                <td className="p-4">{member.plan_type}</td>
-                <td className="p-4">{member.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="mt-8">
-        <h2 className="text-xl font-bold mb-4">Donaciones</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full bg-white shadow-xl rounded-2xl overflow-hidden">
-            <thead>
-              <tr className="bg-gray-800 text-white">
-                <th className="p-4 text-left">Donante</th>
-                <th className="p-4 text-left">Email</th>
-                <th className="p-4 text-left">Tipo</th>
-                <th className="p-4 text-left">Monto</th>
-              </tr>
-            </thead>
-            <tbody>
-              {members.length === 0 && (
-                <tr>
-                  <td colSpan={4} className="p-4 text-center text-gray-500">
-                    No hay donaciones registradas
-                  </td>
+      <div className="space-y-12">
+        <!-- Miembros -->
+        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+            <Users size={24} className="text-red-600" />
+            Miembros Registrados
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="p-4 text-left">Nombre</th>
+                  <th className="p-4 text-left">Email</th>
+                  <th className="p-4 text-left">Plan</th>
+                  <th className="p-4 text-left">Estado</th>
+                  <th className="p-4 text-left">Fecha</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {members.map((member) => (
+                  <tr key={member.id} className="border-t hover:bg-gray-50 transition">
+                    <td className="p-4">{member.full_name}</td>
+                    <td className="p-4">{member.email}</td>
+                    <td className="p-4">{member.plan_type}</td>
+                    <td className="p-4">{member.status}</td>
+                    <td className="p-4">{member.created_at}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Donaciones -->
+        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+            <Heart size={24} className="text-red-600" />
+            Donaciones
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="p-4 text-left">Donante</th>
+                  <th className="p-4 text-left">Email</th>
+                  <th className="p-4 text-left">Tipo</th>
+                  <th className="p-4 text-left">Monto</th>
+                  <th className="p-4 text-left">Ciudad</th>
+                </tr>
+              </thead>
+              <tbody>
+                {donations.map((donation) => (
+                  <tr key={donation.id} className="border-t hover:bg-gray-50 transition">
+                    <td className="p-4">{donation.donor_name}</td>
+                    <td className="p-4">{donation.email}</td>
+                    <td className="p-4">{donation.donation_type}</td>
+                    <td className="p-4">{donation.amount_clp}</td>
+                    <td className="p-4">{donation.city}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Voluntarios -->
+        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+            <Handshake size={24} className="text-red-600" />
+            Voluntarios
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="p-4 text-left">Nombre</th>
+                  <th className="p-4 text-left">Email</th>
+                  <th className="p-4 text-left">Teléfono</th>
+                  <th className="p-4 text-left">Área</th>
+                </tr>
+              </thead>
+              <tbody>
+                {volunteers.map((volunteer) => (
+                  <tr key={volunteer.id} className="border-t hover:bg-gray-50 transition">
+                    <td className="p-4">{volunteer.full_name}</td>
+                    <td className="p-4">{volunteer.email}</td>
+                    <td className="p-4">{volunteer.phone}</td>
+                    <td className="p-4">{volunteer.area_of_interest}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Galería (Solo admin) -->
+        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+            <Upload size={24} className="text-red-600" />
+            Galería de Fotos
+          </h2>
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <input type="file" onChange={uploadImage} className="hidden" id="upload" />
+            <label htmlFor="upload" className="bg-red-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-red-700 transition">
+              {uploading ? 'Subiendo...' : 'Subir Foto'}
+            </label>
+            <p className="text-gray-600 text-sm">
+              Solo los administradores pueden subir fotos a la galería.
+            </p>
+          </div>
         </div>
       </div>
     </div>
