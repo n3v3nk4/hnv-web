@@ -69,7 +69,6 @@ export default function Admin() {
     const { error } = await supabase.storage.from('galeria').upload(fileName, file)
     if (!error) {
       alert('✅ Foto subida correctamente!')
-      fetchAllData()
     } else {
       console.error('Error de Supabase:', error)
       alert('❌ Error al subir la foto')
