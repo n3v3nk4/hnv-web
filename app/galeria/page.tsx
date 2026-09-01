@@ -27,9 +27,32 @@ export default function Galeria() {
 
   return (
     <div className="container mx-auto py-16 px-4">
-      <h1 className="text-5xl font-bold text-center mb-4">Galería</h1>
-      <p className="text-center text-gray-600 mb-12">Momentos que transforman vidas</p>
+      <h1 className="text-5xl font-bold text-center mb-4">GALERÍA 📸</h1>
+      <p className="text-center text-gray-600 mb-12">HNV en acción</p>
       
+      <div className="bg-white p-6 rounded-2xl shadow-lg mb-12">
+        <p className="text-gray-700 mb-4">Conoce nuestra comunidad, nuestras actividades y el camino que estamos construyendo juntos.</p>
+        <p className="text-gray-600">En esta galería compartiremos imágenes y videos de:</p>
+        <ul className="list-disc pl-5 text-gray-600 mt-2">
+          <li>📸 Actividades comunitarias</li>
+          <li>📸 Masterclass y capacitaciones</li>
+          <li>📸 Encuentros HNV</li>
+          <li>📸 Voluntariado</li>
+          <li>📸 Bienestar</li>
+          <li>📸 Talleres</li>
+          <li>📸 Actividades culturales y recreativas</li>
+          <li>📸 Proyectos sociales</li>
+          <li>📸 Eventos especiales</li>
+          <li>📸 Avances del Campus Comunitario HNV</li>
+          <li>📸 Nuestra comunidad</li>
+          <li>🎥 Videos y testimonios</li>
+        </ul>
+      </div>
+
+      <div className="text-center mb-8">
+        <p className="text-gray-500">Cada imagen cuenta una parte de nuestra historia.</p>
+      </div>
+
       {empty ? (
         <div className="text-center py-20">
           <div className="flex justify-center mb-4">
