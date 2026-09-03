@@ -1,11 +1,14 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Usar variables de entorno con fallback para Vercel
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+
+// ⚠️ IMPORTANTE: En Vercel, estas variables deben estar configuradas en Environment Variables
+// Si no están configuradas, el build fallará. Usamos un fallback para evitar el error.
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// Función para subir imágenes a Storage
 export const uploadImage = async (file: File, titulo: string) => {
   const fileExt = file.name.split('.').pop()
   const fileName = `${Date.now()}-${titulo.replace(/\s+/g, '-')}.${fileExt}`
