@@ -1,8 +1,13 @@
 import { supabase } from '@/lib/supabaseClient'
 
-// Esto se ejecuta en el servidor (SSR)
 async function getGaleria() {
   try {
+    // Verificar que supabase esté configurado
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      console.warn('⚠️ Supabase no configurado en variables de entorno')
+      return []
+    }
+
     const { data, error } = await supabase
       .from('galeria')
       .select('*')
@@ -22,7 +27,6 @@ async function getGaleria() {
 export default async function Galeria() {
   const imagenes = await getGaleria()
 
-  // Si no hay imágenes, no mostrar nada
   if (!imagenes || imagenes.length === 0) {
     return (
       <div className="container mx-auto py-12 px-4">
@@ -41,7 +45,6 @@ export default async function Galeria() {
         {imagenes.map((img) => (
           <div key={img.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
             <div className="relative h-64 bg-gray-100">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src={img.imagen_url} 
                 alt={img.titulo || 'Imagen de galería'}
