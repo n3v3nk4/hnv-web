@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
 // Usar variables de entorno con fallback para Vercel
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://obgpnlntlsjnrdvqcynq.supabase.co'
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_nTj3WIPz2KAFfenTteKzOA_tfvoqxvv'
 
 // ⚠️ IMPORTANTE: En Vercel, estas variables deben estar configuradas en Environment Variables
 // Si no están configuradas, el build fallará. Usamos un fallback para evitar el error.
