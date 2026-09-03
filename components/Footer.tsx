@@ -1,52 +1,74 @@
+import Image from 'next/image'
+import Link from 'next/link'
+
 export default function Footer() {
   return (
-    <footer className="bg-black text-white p-10">
+    <footer className="bg-black text-white text-center p-6 mt-12 border-t border-red-800">
       <div className="container mx-auto">
-        <div className="text-center mb-8">
-          <p className="text-2xl font-bold text-red-600 mb-2">HNV - Humanidad Nueva Visión</p>
-          <p className="text-gray-400">Capacitar • Acompañar • Bienestar • Éxito</p>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Image src="/logo.png" alt="HNV" width={35} height={25} />
+            <span className="text-xl font-bold text-red-500">HNV</span>
+          </div>
+
+          {/* ====== REDES SOCIALES ====== */}
+          <div className="flex gap-4">
+            <a 
+              href="https://www.facebook.com/share/19Qo5fHceE/?mibextid=wwXIfr" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-400 hover:text-white transition"
+              aria-label="Facebook"
+            >
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+              </svg>
+            </a>
+            <a 
+              href="https://www.instagram.com/jesula.vital?utm_source=qr" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-400 hover:text-white transition"
+              aria-label="Instagram"
+            >
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <rect width="20" height="20" x="2" y="2" rx="5"/>
+                <circle cx="12" cy="12" r="5"/>
+                <circle cx="17.5" cy="6.5" r="1.5"/>
+              </svg>
+            </a>
+            <a 
+              href="https://www.youtube.com/@HaytiNouvelvesyon" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-400 hover:text-white transition"
+              aria-label="YouTube"
+            >
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
+            <a 
+              href="https://www.tiktok.com/@djessvital.hnv.4?_r=1&_t=ZS-99QKAEouM6e" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-400 hover:text-white transition"
+              aria-label="TikTok"
+            >
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 01-1.3-3.39 2.89 2.89 0 012.67-1.97c.34 0 .67.06.98.17V8.17a6.37 6.37 0 00-1.06-.1 6.35 6.35 0 00-6.34 6.35 6.35 6.35 0 006.34 6.34 6.35 6.35 0 006.34-6.34V8.17a6.37 6.37 0 003.77 1.33V6.69z"/>
+              </svg>
+            </a>
+          </div>
+
+          <div className="flex flex-col text-sm text-gray-500">
+            <p>📞 +56988923943 · +56927953832</p>
+            <p>✉️ contacto@hnv.org</p>
+          </div>
         </div>
-        
-        {/* Iconos de redes sociales (SVG propios) */}
-        <div className="flex justify-center gap-6 mb-8">
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-white/10 p-3 rounded-full hover:bg-red-600 transition" aria-label="Instagram">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-          </a>
 
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-white/10 p-3 rounded-full hover:bg-red-600 transition" aria-label="Facebook">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-            </svg>
-          </a>
-
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="bg-white/10 p-3 rounded-full hover:bg-red-600 transition" aria-label="Twitter">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-            </svg>
-          </a>
-
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="bg-white/10 p-3 rounded-full hover:bg-red-600 transition" aria-label="Youtube">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
-              <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
-            </svg>
-          </a>
-
-          <a href="https://wa.me/123456789" target="_blank" rel="noopener noreferrer" className="bg-white/10 p-3 rounded-full hover:bg-red-600 transition" aria-label="WhatsApp">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-              <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
-            </svg>
-          </a>
-        </div>
-
-        <div className="text-center text-sm text-gray-500">
-          <p>&copy; {new Date().getFullYear()} HNV. Todos los derechos reservados.</p>
-        </div>
+        <p className="text-gray-500 text-xs mt-4">© {new Date().getFullYear()} HNV - Humanidad Nueva Visión. Todos los derechos reservados.</p>
+        <p className="text-gray-600 text-xs mt-1">Capacitar · Acompañar · Bienestar · Éxito</p>
       </div>
     </footer>
   )

@@ -1,75 +1,67 @@
-'use client'
-import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { ImageOff } from 'lucide-react'
 
-export default function Galeria() {
-  const [images, setImages] = useState([])
-  const [empty, setEmpty] = useState(false)
+// Esto se ejecuta en el servidor (SSR)
+async function getGaleria() {
+  try {
+    const { data, error } = await supabase
+      .from('galeria')
+      .select('*')
+      .order('created_at', { ascending: false })
 
-  useEffect(() => {
-    fetchImages()
-  }, [])
-
-  async function fetchImages() {
-    const { data } = await supabase.storage.from('galeria').list()
-    if (data && data.length > 0) {
-      const urls = data.map((file: any) => {
-        const { data: urlData } = supabase.storage.from('galeria').getPublicUrl(file.name)
-        return urlData.publicUrl
-      })
-      setImages(urls)
-      setEmpty(false)
-    } else {
-      setEmpty(true)
+    if (error) {
+      console.error('Error al cargar galería:', error)
+      return []
     }
+    return data || []
+  } catch (error) {
+    console.error('Error:', error)
+    return []
+  }
+}
+
+export default async function Galeria() {
+  const imagenes = await getGaleria()
+
+  // Si no hay imágenes, no mostrar nada
+  if (!imagenes || imagenes.length === 0) {
+    return (
+      <div className="container mx-auto py-12 px-4">
+        <h1 className="text-4xl font-bold text-center mb-4">Galería</h1>
+        <p className="text-center text-gray-500">No hay imágenes disponibles.</p>
+      </div>
+    )
   }
 
   return (
-    <div className="container mx-auto py-16 px-4">
-      <h1 className="text-5xl font-bold text-center mb-4">GALERÍA 📸</h1>
-      <p className="text-center text-gray-600 mb-12">HNV en acción</p>
-      
-      <div className="bg-white p-6 rounded-2xl shadow-lg mb-12">
-        <p className="text-gray-700 mb-4">Conoce nuestra comunidad, nuestras actividades y el camino que estamos construyendo juntos.</p>
-        <p className="text-gray-600">En esta galería compartiremos imágenes y videos de:</p>
-        <ul className="list-disc pl-5 text-gray-600 mt-2">
-          <li>📸 Actividades comunitarias</li>
-          <li>📸 Masterclass y capacitaciones</li>
-          <li>📸 Encuentros HNV</li>
-          <li>📸 Voluntariado</li>
-          <li>📸 Bienestar</li>
-          <li>📸 Talleres</li>
-          <li>📸 Actividades culturales y recreativas</li>
-          <li>📸 Proyectos sociales</li>
-          <li>📸 Eventos especiales</li>
-          <li>📸 Avances del Campus Comunitario HNV</li>
-          <li>📸 Nuestra comunidad</li>
-          <li>🎥 Videos y testimonios</li>
-        </ul>
-      </div>
+    <div className="container mx-auto py-12 px-4">
+      <h1 className="text-4xl font-bold text-center mb-4">Galería</h1>
+      <p className="text-center text-gray-600 mb-8">Nuestra comunidad en acción</p>
 
-      <div className="text-center mb-8">
-        <p className="text-gray-500">Cada imagen cuenta una parte de nuestra historia.</p>
-      </div>
-
-      {empty ? (
-        <div className="text-center py-20">
-          <div className="flex justify-center mb-4">
-            <ImageOff size={64} className="text-gray-300" />
-          </div>
-          <p className="text-2xl font-semibold text-gray-500">Aún no hay fotos disponibles</p>
-          <p className="text-gray-400 mt-2">Pronto compartiremos nuestros momentos aquí.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {images.map((url, index) => (
-            <div key={index} className="relative aspect-video rounded-2xl shadow-xl overflow-hidden">
-              <img src={url} alt={`Foto ${index}`} className="w-full h-full object-cover" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {imagenes.map((img) => (
+          <div key={img.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+            <div className="relative h-64 bg-gray-100">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src={img.imagen_url} 
+                alt={img.titulo || 'Imagen de galería'}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
             </div>
-          ))}
-        </div>
-      )}
+            <div className="p-4">
+              {img.titulo && (
+                <h3 className="font-bold text-lg text-black">{img.titulo}</h3>
+              )}
+              {img.descripcion && (
+                <p className="text-gray-600 text-sm">{img.descripcion}</p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

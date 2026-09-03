@@ -4,12 +4,38 @@ import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-const ventanas = [
-  { titulo: 'Hazte Miembro', descripcion: 'Únete a la comunidad', href: '/hazte-miembro', imagen: '/hazte-miembro.jpg' },
-  { titulo: 'Nuestro Proyecto', descripcion: 'Campus Comunitarios', href: '/proyecto', imagen: '/proyecto.jpg' },
-  { titulo: 'Donar', descripcion: 'Transforma vidas', href: '/donar', imagen: '/donar.jpg' },
-  { titulo: 'Ser Voluntario', descripcion: 'Aporta tu talento', href: '/voluntariado', imagen: '/voluntario.jpg' },
-  { titulo: 'Galería', descripcion: 'Nuestra comunidad', href: '/galeria', imagen: '/galeria.jpg' },
+// ====== CARRUSEL (SOLO 5: Hazte Miembro, Donar, Voluntario, Galería, Proyecto) ======
+const slides = [
+  {
+    id: 1,
+    subtitulo: 'Únete a la comunidad HNV',
+    imagen: '/hazte-miembro.jpg',
+    link: '/hazte-miembro'
+  },
+  {
+    id: 2,
+    subtitulo: 'Transforma vidas con tu aporte',
+    imagen: '/donar.jpg',
+    link: '/donar'
+  },
+  {
+    id: 3,
+    subtitulo: 'Aporta tu talento a la comunidad',
+    imagen: '/voluntario.jpg',
+    link: '/voluntariado'
+  },
+  {
+    id: 4,
+    subtitulo: 'Nuestra comunidad en acción',
+    imagen: '/galeria.jpg',
+    link: '/galeria'
+  },
+  {
+    id: 5,
+    subtitulo: 'Campus Comunitarios HNV',
+    imagen: '/proyecto.jpg',
+    link: '/proyecto'
+  }
 ]
 
 export default function Home() {
@@ -20,102 +46,180 @@ export default function Home() {
   const actualizarFlechas = () => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current
-      setPuedeIzquierda(scrollLeft > 0)
+      setPuedeIzquierda(scrollLeft > 10)
       setPuedeDerecha(scrollLeft < scrollWidth - clientWidth - 10)
     }
   }
 
   const mover = (direccion: 'izq' | 'der') => {
     if (scrollRef.current) {
-      const anchoTarjeta = scrollRef.current.clientWidth * 0.8
-      scrollRef.current.scrollBy({ left: direccion === 'der' ? anchoTarjeta : -anchoTarjeta, behavior: 'smooth' })
+      const anchoTarjeta = 320
+      scrollRef.current.scrollBy({ 
+        left: direccion === 'der' ? anchoTarjeta : -anchoTarjeta, 
+        behavior: 'smooth' 
+      })
     }
   }
 
   useEffect(() => {
     actualizarFlechas()
+    window.addEventListener('resize', actualizarFlechas)
+    return () => window.removeEventListener('resize', actualizarFlechas)
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-red-50 pt-8 pb-16">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-white">
+      
+      {/* ====== HERO CON LOGO + BOTONES ====== */}
+      <section className="relative h-[50vh] flex items-center justify-center text-center text-white" style={{
+        backgroundImage: "url('/campus.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
+        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="relative z-10 px-4">
+          
+          <div className="flex justify-center mb-4">
+            <Image 
+              src="/logo.png" 
+              alt="HNV" 
+              width={120} 
+              height={60} 
+              className="brightness-200"
+            />
+          </div>
+          
+          <h1 className="text-3xl md:text-5xl font-bold text-white mb-2">
+            HNV
+          </h1>
+          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+            Fundación Humanidad Nueva Visión
+          </p>
+          
+          {/* ====== BOTONES: HAZTE MIEMBRO Y DONAR ====== */}
+          <div className="mt-6 flex flex-wrap justify-center gap-4">
+            <Link 
+              href="/hazte-miembro" 
+              className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition transform hover:scale-105 shadow-lg"
+            >
+              Hazte Miembro
+            </Link>
+            <Link 
+              href="/donar" 
+              className="bg-white hover:bg-gray-200 text-black px-8 py-3 rounded-full font-bold transition transform hover:scale-105 shadow-lg"
+            >
+              Donar
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ====== CARRUSEL CON IMÁGENES BIEN AJUSTADAS ====== */}
+      <section className="container mx-auto py-12 px-4">
+        <h2 className="text-2xl font-bold text-center mb-6 text-black">Explora HNV</h2>
         
-        {/* CARRUSEL DE VENTANAS */}
-        <div className="relative mb-12">
-          <button onClick={() => mover('izq')} className={`absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white p-2 rounded-full shadow-lg border ${puedeIzquierda ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-            <ChevronLeft size={24} className="text-red-600" />
-          </button>
-          <button onClick={() => mover('der')} className={`absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white p-2 rounded-full shadow-lg border ${puedeDerecha ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-            <ChevronRight size={24} className="text-red-600" />
+        <div className="relative">
+          <button 
+            onClick={() => mover('izq')} 
+            className={`absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white p-2 rounded-full shadow-lg border border-gray-200 ${
+              puedeIzquierda ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            } transition-opacity`}
+          >
+            <ChevronLeft size={28} className="text-red-600" />
           </button>
 
-          <div ref={scrollRef} onScroll={actualizarFlechas} className="flex overflow-x-auto gap-6 pb-4 scrollbar-hide snap-x snap-mandatory" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            {ventanas.map((ventana, index) => (
-              <Link key={index} href={ventana.href} className="group relative flex-shrink-0 w-[280px] md:w-[350px] h-[220px] rounded-3xl overflow-hidden shadow-xl snap-center bg-black">
-                <Image src={ventana.imagen} alt={ventana.titulo} fill className="object-cover group-hover:scale-105 transition duration-500" />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-bold mb-1">{ventana.titulo}</h3>
-                  <p className="text-sm text-gray-200">{ventana.descripcion}</p>
+          <button 
+            onClick={() => mover('der')} 
+            className={`absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white p-2 rounded-full shadow-lg border border-gray-200 ${
+              puedeDerecha ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            } transition-opacity`}
+          >
+            <ChevronRight size={28} className="text-red-600" />
+          </button>
+
+          <div 
+            ref={scrollRef} 
+            onScroll={actualizarFlechas} 
+            className="flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory scrollbar-hide"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {slides.map((slide) => (
+              <Link 
+                key={slide.id}
+                href={slide.link}
+                className="group relative flex-shrink-0 w-[280px] md:w-[300px] h-[200px] rounded-2xl overflow-hidden shadow-xl snap-center bg-black hover:shadow-2xl transition-shadow"
+              >
+                {/* ====== IMAGEN CON object-cover PARA QUE SE AJUSTE BIEN ====== */}
+                <div className="absolute inset-0">
+                  <Image 
+                    src={slide.imagen} 
+                    alt={slide.subtitulo} 
+                    fill 
+                    className="object-cover group-hover:scale-110 transition duration-500"
+                    sizes="(max-width: 768px) 280px, 300px"
+                    priority
+                  />
+                </div>
+                
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                
+                <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                  <p className="text-sm font-medium text-gray-200">{slide.subtitulo}</p>
+                  <span className="mt-2 inline-block bg-red-600 text-white text-xs px-3 py-1 rounded-full group-hover:bg-red-500 transition">
+                    Ver más →
+                  </span>
                 </div>
               </Link>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* LOGO MÁS CHIQUITO */}
-        <div className="text-center mb-6">
-          <div className="inline-block bg-white p-3 rounded-2xl shadow-lg">
-            <Image src="/logo.png" alt="Logo HNV" width={120} height={80} className="w-auto h-auto" />
-          </div>
-        </div>
-
-        {/* TÍTULO Y DESCRIPCIÓN */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            HNV: <span className="text-red-600">HUMANIDAD NUEVA VISIÓN</span>
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Fundación Humanidad Nueva Visión. Capacitar • Acompañar • Bienestar • Éxito
-          </p>
-        </div>
-
-        {/* BOTONES DE ACCIÓN */}
-        <div className="flex flex-wrap justify-center gap-6 mb-16">
-          <Link href="/hazte-miembro" className="bg-red-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:bg-red-700 transition transform hover:scale-105">
-            Hazte miembro
-          </Link>
-          <Link href="/donar" className="bg-black text-white px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:bg-gray-800 transition transform hover:scale-105">
-            Donar
-          </Link>
-        </div>
-
-        {/* CLUB MATRIARCA Y PATRIARCA */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Competencia</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <Link href="/club" className="group relative h-[400px] rounded-3xl overflow-hidden shadow-xl">
-            <Image src="/club-matriarca.jpg" alt="Club Matriarca" fill className="object-cover group-hover:scale-105 transition duration-500" />
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-            <div className="absolute bottom-0 p-6 text-white">
-              <h3 className="text-3xl font-bold">Club Matriarca</h3>
-              <p className="text-sm mt-2">Liderazgo, sabiduría y transformación.</p>
+      {/* ====== COMPETENCIA ====== */}
+      <section className="container mx-auto px-4 pb-16">
+        <h2 className="text-2xl font-bold text-center mb-8 text-black">Competencia</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          
+          <Link href="/club-matriarca" className="group relative h-[300px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition">
+            <div className="absolute inset-0">
+              <Image 
+                src="/club-matriarca.jpg" 
+                alt="Club Matriarca" 
+                fill 
+                className="object-cover group-hover:scale-105 transition duration-500"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+              <span className="text-xs uppercase tracking-wider text-red-400 font-semibold">Club</span>
+              <h3 className="text-2xl font-bold">Matriarca</h3>
+              <p className="text-sm text-gray-300">Liderazgo, sabiduría y transformación.</p>
             </div>
           </Link>
 
-          <Link href="/club" className="group relative h-[400px] rounded-3xl overflow-hidden shadow-xl">
-            <Image src="/club-patriarca.jpg" alt="Club Patriarca" fill className="object-cover group-hover:scale-105 transition duration-500" />
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-            <div className="absolute bottom-0 p-6 text-white">
-              <h3 className="text-3xl font-bold">Club Patriarca</h3>
-              <p className="text-sm mt-2">Fuerza, responsabilidad y construcción.</p>
+          <Link href="/club-patriarca" className="group relative h-[300px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition">
+            <div className="absolute inset-0">
+              <Image 
+                src="/club-patriarca.jpg" 
+                alt="Club Patriarca" 
+                fill 
+                className="object-cover group-hover:scale-105 transition duration-500"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+              <span className="text-xs uppercase tracking-wider text-blue-400 font-semibold">Club</span>
+              <h3 className="text-2xl font-bold">Patriarca</h3>
+              <p className="text-sm text-gray-300">Fuerza, responsabilidad y construcción.</p>
             </div>
           </Link>
-        </div>
 
-      </div>
+        </div>
+      </section>
+
     </div>
   )
 }
