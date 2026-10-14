@@ -57,7 +57,7 @@ export default function ExitoPersonal() {
             </p>
           </div>
 
-          <div className="mt-8 bg-gradient-to-r from-red-50 to-transparent border-l-4 border-red-600 p-6 rounded-r-lg">
+          <div className="mt-8 bg-linear-to-r from-red-50 to-transparent border-l-4 border-red-600 p-6 rounded-r-lg">
             <p className="text-gray-800 font-semibold italic">
               "La Masterclass te entrega conocimientos. El acompañamiento personal te ayuda a aplicarlos a tu propia vida."
             </p>
@@ -148,10 +148,10 @@ export default function ExitoPersonal() {
           </div>
         </div>
       </section>
-
+      
       {/* ====== PAGO ====== */}
       <section className="container mx-auto max-w-4xl px-4 pb-20">
-        <div className="bg-gradient-to-br from-black to-gray-900 rounded-2xl p-10 md:p-12 text-center relative overflow-hidden">
+        <div className="bg-linear-to-br from-black to-gray-900 rounded-2xl p-10 md:p-12 text-center relative overflow-hidden">
           {/* Patrón decorativo */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-3xl opacity-20" />
           
