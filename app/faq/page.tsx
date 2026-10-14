@@ -87,7 +87,7 @@ export default function FAQ() {
                 <h3 className="text-base md:text-lg font-bold text-black pr-4">
                   {faq.pregunta}
                 </h3>
-                <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-red-50 flex items-center justify-center transition-transform duration-300 ${abierto === index ? 'rotate-180' : ''}`}>
+                <div className={`shrink-0 w-8 h-8 rounded-full bg-red-50 flex items-center justify-center transition-transform duration-300 ${abierto === index ? 'rotate-180' : ''}`}>
                   <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -109,7 +109,7 @@ export default function FAQ() {
 
       {/* ====== FORMULARIO DE CONTACTO ====== */}
       <section className="container mx-auto max-w-4xl px-4 pb-20">
-        <div className="bg-gradient-to-br from-black to-gray-900 rounded-2xl p-10 md:p-12 relative overflow-hidden">
+        <div className="bg-linear-to-br from-black to-gray-900 rounded-2xl p-10 md:p-12 relative overflow-hidden">
           {/* Patrón decorativo */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-3xl opacity-20" />
           
