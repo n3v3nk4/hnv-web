@@ -7,27 +7,28 @@ export default function Directorio() {
       cargo: 'Presidenta',
       foto: '/presidenta.jpg',
       descripcion: 'Lidera la fundación con visión y compromiso, impulsando el desarrollo integral de las comunidades a través de la educación, el acompañamiento y el bienestar.',
-      email: 'presidencia@hnv.org'
+      email: 'nuevavisionfundacion2026@gmail.com'
     },
     {
       nombre: 'Cristopher Isaias Salas Espinoza',
       cargo: 'Tesorero',
       foto: '/tesorero.jpg',
       descripcion: 'Responsable de la gestión financiera y la transparencia en el uso de los recursos de la fundación, asegurando el correcto destino de cada aporte.',
-      email: 'tesoreria@hnv.org'
+      email: 'nuevavisionfundacion2026@gmail.com'
     },
     {
       nombre: 'Jenny Paul',
       cargo: 'Secretaria',
       foto: '/secretaria.jpg',
       descripcion: 'Encargada de la coordinación administrativa, la gestión documental y el apoyo a las actividades y programas de la fundación.',
-      email: 'secretaria@hnv.org'
+      email: 'nuevavisionfundacion2026@gmail.com'
     }
   ]
 
   return (
     <div className="min-h-screen bg-gray-50">
       
+      {/* ====== ENCABEZADO ====== */}
       <section className="bg-black text-white py-16 px-4">
         <div className="container mx-auto max-w-4xl text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Nuestro Directorio</h1>
@@ -38,6 +39,7 @@ export default function Directorio() {
         </div>
       </section>
 
+      {/* ====== DIRECTORIO ====== */}
       <section className="container mx-auto max-w-6xl px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {directivos.map((directivo, index) => (
@@ -66,7 +68,7 @@ export default function Directorio() {
                 </p>
                 <a 
                   href={`mailto:${directivo.email}`}
-                  className="text-sm text-gray-500 hover:text-red-600 transition"
+                  className="text-sm text-gray-500 hover:text-red-600 transition break-all"
                 >
                   {directivo.email}
                 </a>
@@ -76,6 +78,7 @@ export default function Directorio() {
         </div>
       </section>
 
+      {/* ====== COMPROMISO ====== */}
       <section className="bg-white py-16 px-4">
         <div className="container mx-auto max-w-3xl text-center">
           <h2 className="text-2xl font-bold text-black mb-4">Nuestro compromiso</h2>
@@ -87,30 +90,43 @@ export default function Directorio() {
         </div>
       </section>
 
+      {/* ====== CONTACTO ====== */}
       <section className="container mx-auto max-w-3xl px-4 pb-16">
         <div className="bg-gray-100 rounded-xl p-8 text-center">
-          <h3 className="text-xl font-bold text-black mb-2">¿Necesitas contactar a algún miembro del directorio?</h3>
+          <h3 className="text-xl font-bold text-black mb-2">
+            ¿Necesitas contactar a algún miembro del directorio?
+          </h3>
           <p className="text-gray-600 text-sm mb-6">
             Puedes escribirnos directamente y te pondremos en contacto con el área correspondiente.
           </p>
+          
           <div className="flex flex-wrap gap-4 justify-center">
             <a
               href="mailto:nuevavisionfundacion2026@gmail.com"
               className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition"
             >
-              Enviar correo
+              ✉️ Correo
             </a>
             <a
               href="https://wa.me/56988923943"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold transition"
+              className="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition"
             >
-              WhatsApp
+              WhatsApp 1
+            </a>
+            <a
+              href="https://wa.me/56991327162"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-lg font-semibold transition"
+            >
+              WhatsApp 2
             </a>
           </div>
         </div>
       </section>
+
     </div>
   )
 }

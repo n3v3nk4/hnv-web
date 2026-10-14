@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
+// ====== CARRUSEL ======
 const slides = [
   { id: 1, titulo: 'Hazte Miembro', subtitulo: 'Únete a la comunidad HNV', imagen: '/hazte-miembro.jpg', link: '/hazte-miembro' },
   { id: 2, titulo: 'Donar', subtitulo: 'Transforma vidas con tu aporte', imagen: '/donar.jpg', link: '/donar' },
@@ -42,30 +43,52 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       
       {/* ====== HERO ====== */}
-      <section className="relative min-h-[85vh] flex items-center justify-center text-center text-white overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/portada.jpg')" }} />
-        <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/40 to-black/70" />
+      <section className="relative w-full h-screen min-h-150 max-h-225 overflow-hidden bg-black">
         
-        <div className="relative z-10 px-4 py-16 max-w-5xl mx-auto">
-          <div className="relative w-40 h-20 mx-auto mb-6">
-            <Image src="/logo.png" alt="HNV" fill sizes="160px" className="brightness-200 object-contain" priority />
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/portada.jpg')" }}
+        />
+        
+        <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/80" />
+
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+          
+          <div className="relative w-32 h-16 md:w-44 md:h-22 mb-6 md:mb-8">
+            <Image 
+              src="/logo.png" 
+              alt="HNV" 
+              fill
+              sizes="(max-width: 768px) 128px, 176px"
+              className="brightness-200 object-contain"
+              priority
+            />
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 max-w-4xl mx-auto leading-tight drop-shadow-2xl">
             Fundación Humanidad Nueva Visión
           </h1>
-          <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto mb-8 drop-shadow-md">
+
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 mb-8 md:mb-10 max-w-2xl mx-auto tracking-wide drop-shadow-md">
             Capacitar · Acompañar · Bienestar · Éxito
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/hazte-miembro" className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition transform hover:scale-105 shadow-lg">
+
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 w-full max-w-lg">
+            <Link href="/hazte-miembro" className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 md:py-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl text-center">
               Hazte Miembro
             </Link>
-            <Link href="/donar" className="bg-white hover:bg-gray-200 text-black px-8 py-3 rounded-full font-bold transition transform hover:scale-105 shadow-lg">
+            <Link href="/donar" className="bg-white hover:bg-gray-100 text-black px-8 py-3 md:py-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl text-center">
               Donar
             </Link>
-            <Link href="/proyecto" className="bg-black/60 hover:bg-black/80 text-white border border-white/30 px-8 py-3 rounded-full font-bold transition transform hover:scale-105 backdrop-blur-sm">
+            <Link href="/proyecto" className="bg-transparent hover:bg-white/10 text-white border-2 border-white/60 hover:border-white px-8 py-3 md:py-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105 backdrop-blur-sm text-center">
               Nuestro Proyecto
             </Link>
+          </div>
+
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg className="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
           </div>
         </div>
       </section>
@@ -86,7 +109,7 @@ export default function Home() {
             {slides.map((slide) => (
               <Link key={slide.id} href={slide.link} className="group relative shrink-0 w-72 h-52 rounded-2xl overflow-hidden shadow-xl snap-center bg-black hover:shadow-2xl transition-shadow">
                 <div className="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition duration-700" style={{ backgroundImage: `url('${slide.imagen}')` }} />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4 pt-12">
+                <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black via-black/80 to-transparent p-4 pt-12">
                   <h3 className="text-white text-base font-bold">{slide.titulo}</h3>
                   <p className="text-gray-300 text-sm">{slide.subtitulo}</p>
                   <span className="mt-2 inline-block bg-red-600 text-white text-xs px-3 py-1 rounded-full group-hover:bg-red-500 transition">
@@ -106,7 +129,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           <Link href="/club-matriarca" className="group relative h-72 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition bg-black">
             <div className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition duration-700" style={{ backgroundImage: "url('/club-matriarca.jpg')" }} />
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6 pt-16">
+            <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black via-black/80 to-transparent p-6 pt-16">
               <span className="text-xs uppercase tracking-wider text-red-400 font-semibold">Club</span>
               <h3 className="text-white text-2xl font-bold">Matriarca</h3>
               <p className="text-gray-300 text-sm">Liderazgo, sabiduría y transformación.</p>
@@ -115,7 +138,7 @@ export default function Home() {
 
           <Link href="/club-patriarca" className="group relative h-72 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition bg-black">
             <div className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition duration-700" style={{ backgroundImage: "url('/club-patriarca.jpg')" }} />
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6 pt-16">
+            <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black via-black/80 to-transparent p-6 pt-16">
               <span className="text-xs uppercase tracking-wider text-blue-400 font-semibold">Club</span>
               <h3 className="text-white text-2xl font-bold">Patriarca</h3>
               <p className="text-gray-300 text-sm">Fuerza, responsabilidad y construcción.</p>
