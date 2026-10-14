@@ -1,6 +1,5 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -42,53 +41,31 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       
-      {/* ====== HERO ====== */}
-      <section className="relative w-full h-screen min-h-150 max-h-225 overflow-hidden bg-black">
-        
+      {/* ====== HERO SIN LOGO ====== */}
+      <section className="relative min-h-[85vh] flex items-center justify-center text-center text-white overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/portada.jpg')" }}
         />
+        <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/40 to-black/70" />
         
-        <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/80" />
-
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-          
-          <div className="relative w-32 h-16 md:w-44 md:h-22 mb-6 md:mb-8">
-            <Image 
-              src="/logo.png" 
-              alt="HNV" 
-              fill
-              sizes="(max-width: 768px) 128px, 176px"
-              className="brightness-200 object-contain"
-              priority
-            />
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 max-w-4xl mx-auto leading-tight drop-shadow-2xl">
+        <div className="relative z-10 px-4 py-16 max-w-5xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
             Fundación Humanidad Nueva Visión
           </h1>
-
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 mb-8 md:mb-10 max-w-2xl mx-auto tracking-wide drop-shadow-md">
+          <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto mb-8 drop-shadow-md">
             Capacitar · Acompañar · Bienestar · Éxito
           </p>
-
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 w-full max-w-lg">
-            <Link href="/hazte-miembro" className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 md:py-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl text-center">
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/hazte-miembro" className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition transform hover:scale-105 shadow-lg">
               Hazte Miembro
             </Link>
-            <Link href="/donar" className="bg-white hover:bg-gray-100 text-black px-8 py-3 md:py-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl text-center">
+            <Link href="/donar" className="bg-white hover:bg-gray-200 text-black px-8 py-3 rounded-full font-bold transition transform hover:scale-105 shadow-lg">
               Donar
             </Link>
-            <Link href="/proyecto" className="bg-transparent hover:bg-white/10 text-white border-2 border-white/60 hover:border-white px-8 py-3 md:py-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105 backdrop-blur-sm text-center">
+            <Link href="/proyecto" className="bg-black/60 hover:bg-black/80 text-white border border-white/30 px-8 py-3 rounded-full font-bold transition transform hover:scale-105 backdrop-blur-sm">
               Nuestro Proyecto
             </Link>
-          </div>
-
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-            <svg className="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
           </div>
         </div>
       </section>

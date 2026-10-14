@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
@@ -9,10 +10,23 @@ export default function Navbar() {
   return (
     <nav className="bg-black text-white p-3 shadow-lg sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="flex items-center">
+        
+        {/* Logo con fondo blanco redondeado */}
+        <Link href="/" className="flex items-center gap-3">
+          <div className="relative w-14 h-14 bg-white rounded-full p-1 shadow-md">
+            <Image 
+              src="/logo.jpg" 
+              alt="HNV" 
+              fill
+              sizes="56px"
+              className="object-contain rounded-full"
+              priority
+            />
+          </div>
           <span className="text-2xl font-bold text-red-500">HNV</span>
         </Link>
 
+        {/* Menú Desktop */}
         <ul className="hidden md:flex gap-6 text-sm font-medium">
           <li><Link href="/" className="hover:text-red-500 transition">Inicio</Link></li>
           <li><Link href="/directorio" className="hover:text-red-500 transition">Directorio</Link></li>
@@ -28,6 +42,7 @@ export default function Navbar() {
         </button>
       </div>
 
+      {/* Menú Móvil */}
       {isOpen && (
         <div className="md:hidden bg-black text-white p-4 mt-2 rounded-lg">
           <ul className="flex flex-col gap-3 text-center text-sm font-medium">
