@@ -26,7 +26,6 @@ export default function Navbar() {
           <span className="text-2xl font-bold text-red-500">HNV</span>
         </Link>
 
-        {/* Menú Desktop */}
         <ul className="hidden md:flex gap-6 text-sm font-medium">
           <li><Link href="/" className="hover:text-red-500 transition">Inicio</Link></li>
           <li><Link href="/directorio" className="hover:text-red-500 transition">Directorio</Link></li>
@@ -42,7 +41,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Menú Móvil */}
       {isOpen && (
         <div className="md:hidden bg-black text-white p-4 mt-2 rounded-lg">
           <ul className="flex flex-col gap-3 text-center text-sm font-medium">
