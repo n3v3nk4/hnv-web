@@ -16,7 +16,7 @@ export default function Proyecto() {
 
       {/* ====== IMAGEN DEL PROYECTO ====== */}
       <section className="container mx-auto max-w-5xl px-4 py-12">
-        <div className="relative w-full h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-xl mb-12">
+        <div className="relative w-full h-96 md:h-125 rounded-2xl overflow-hidden shadow-xl mb-12">
           <Image
             src="/campus.jpg"
             alt="Campus Comunitario HNV"
