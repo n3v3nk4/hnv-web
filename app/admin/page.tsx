@@ -1,110 +1,114 @@
 'use client'
-import { useState } from 'react'
-import { supabase, uploadImage } from '@/lib/supabaseClient'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { supabase } from '@/lib/supabaseClient'
 
-export default function AdminGaleria() {
-  const [loading, setLoading] = useState(false)
-  const [titulo, setTitulo] = useState('')
-  const [descripcion, setDescripcion] = useState('')
-  const [archivo, setArchivo] = useState<File | null>(null)
-  const [mensaje, setMensaje] = useState<{ tipo: 'exito' | 'error', texto: string } | null>(null)
+export default function AdminPanel() {
+  const [loading, setLoading] = useState(true)
+  const [autorizado, setAutorizado] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!archivo || !titulo) {
-      setMensaje({ tipo: 'error', texto: 'Debes seleccionar una imagen y poner un título.' })
-      return
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (!user) {
+        router.push('/admin/login')
+        return
+      }
+
+      // Verificar si es admin
+      const { data } = await supabase
+        .from('admins')
+        .select('*')
+        .eq('email', user.email)
+        .single()
+
+      if (!data) {
+        await supabase.auth.signOut()
+        router.push('/admin/login')
+        return
+      }
+
+      setUser(data)
+      setAutorizado(true)
+      setLoading(false)
     }
 
-    setLoading(true)
-    setMensaje(null)
+    checkAuth()
+  }, [router])
 
-    try {
-      // Subir imagen a Storage
-      const imagen_url = await uploadImage(archivo, titulo)
-
-      // Guardar en la base de datos
-      const { error } = await supabase
-        .from('galeria')
-        .insert([{ titulo, descripcion, imagen_url }])
-
-      if (error) throw error
-
-      setMensaje({ tipo: 'exito', texto: '¡Imagen subida exitosamente!' })
-      setTitulo('')
-      setDescripcion('')
-      setArchivo(null)
-      const input = document.getElementById('archivo') as HTMLInputElement
-      if (input) input.value = ''
-
-    } catch (error: any) {
-      setMensaje({ tipo: 'error', texto: `Error: ${error.message}` })
-    }
-
-    setLoading(false)
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    router.push('/admin/login')
   }
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-600">Verificando acceso...</p>
+      </div>
+    )
+  }
+
+  if (!autorizado) return null
+
   return (
-    <div className="container mx-auto py-12 px-4 max-w-2xl">
-      <h1 className="text-3xl font-bold text-center mb-8">Administrar Galería</h1>
-
-      {mensaje && (
-        <div className={`p-4 rounded-lg mb-6 ${mensaje.tipo === 'exito' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-          {mensaje.texto}
+    <div className="min-h-screen bg-gray-50">
+      
+      <header className="bg-black text-white py-4 px-6">
+        <div className="container mx-auto flex justify-between items-center">
+          <div>
+            <h1 className="text-xl font-bold">Panel de Administración</h1>
+            <p className="text-xs text-gray-400">
+              {user?.nombre} — {user?.cargo}
+            </p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-medium transition"
+          >
+            Cerrar sesión
+          </button>
         </div>
-      )}
+      </header>
 
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow-lg border border-gray-200 space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Título *</label>
-          <input
-            type="text"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
-            placeholder="Ej: Taller de liderazgo"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-            required
-          />
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <Link href="/admin/galeria" className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition group">
+            <div className="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-red-100 transition">
+              <svg className="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h2 className="text-lg font-bold text-black mb-1">Galería</h2>
+            <p className="text-gray-600 text-sm">Subir y gestionar imágenes</p>
+          </Link>
+
+          <Link href="/admin/miembros" className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition group">
+            <div className="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-red-100 transition">
+              <svg className="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h2 className="text-lg font-bold text-black mb-1">Miembros</h2>
+            <p className="text-gray-600 text-sm">Ver solicitudes de membresía</p>
+          </Link>
+
+          <Link href="/admin/donaciones" className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition group">
+            <div className="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-red-100 transition">
+              <svg className="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h2 className="text-lg font-bold text-black mb-1">Donaciones</h2>
+            <p className="text-gray-600 text-sm">Ver donaciones registradas</p>
+          </Link>
+
         </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Descripción (opcional)</label>
-          <textarea
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-            placeholder="Breve descripción de la imagen..."
-            rows={2}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Imagen *</label>
-          <input
-            id="archivo"
-            type="file"
-            accept="image/*"
-            onChange={(e) => setArchivo(e.target.files?.[0] || null)}
-            className="w-full p-2 border border-gray-300 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100"
-            required
-          />
-          {archivo && (
-            <p className="text-sm text-gray-500 mt-1">Archivo seleccionado: {archivo.name}</p>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-bold transition disabled:opacity-50"
-        >
-          {loading ? 'Subiendo...' : '📤 Subir imagen'}
-        </button>
-      </form>
-
-      <div className="mt-8 text-center">
-        <a href="/admin" className="text-red-600 hover:underline">← Volver al panel de administración</a>
       </div>
     </div>
   )
