@@ -95,7 +95,7 @@ export default function Directorio() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a
-              href="mailto:contacto@hnv.org"
+              href="mailto:nuevavisionfundacion2026@gmail.com"
               className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition"
             >
               Enviar correo

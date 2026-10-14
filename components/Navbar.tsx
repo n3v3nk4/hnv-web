@@ -9,7 +9,6 @@ export default function Navbar() {
   return (
     <nav className="bg-black text-white p-3 shadow-lg sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        
         <Link href="/" className="flex items-center">
           <span className="text-2xl font-bold text-red-500">HNV</span>
         </Link>

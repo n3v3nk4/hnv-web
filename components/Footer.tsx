@@ -29,13 +29,13 @@ export default function Footer() {
 
           <div className="flex flex-col text-sm text-gray-500">
             <p>📞 +569 8892 3943 · +569 9913 2716</p>
-            <p>✉️ contacto@hnv.org</p>
+            <p>✉️ nuevavisionfundacion2026@gmail.com</p>
             <p className="text-xs mt-1">RUT: 65.279.293-6</p>
           </div>
         </div>
 
         <p className="text-gray-500 text-xs mt-4">© {new Date().getFullYear()} HNV - Humanidad Nueva Visión. Todos los derechos reservados.</p>
-        <p className="text-gray-600 text-xs mt-1">Capacitar · Acompañar · Bienestar · Éxito</p>
+        <p className="text-gray-600 text-xs mt-1">Capacitar · Acompañar · Bienestar · Transparencia · Compromiso · Acción</p>
       </div>
     </footer>
   )
