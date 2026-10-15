@@ -41,34 +41,46 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       
-      {/* ====== HERO SIN LOGO ====== */}
-      <section className="relative min-h-[85vh] flex items-center justify-center text-center text-white overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/portada.jpg')" }}
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/40 to-black/70" />
-        
-        <div className="relative z-10 px-4 py-16 max-w-5xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
-            Fundación Humanidad Nueva Visión
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto mb-8 drop-shadow-md">
-            Capacitar · Acompañar · Bienestar · Éxito
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/hazte-miembro" className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition transform hover:scale-105 shadow-lg">
-              Hazte Miembro
-            </Link>
-            <Link href="/donar" className="bg-white hover:bg-gray-200 text-black px-8 py-3 rounded-full font-bold transition transform hover:scale-105 shadow-lg">
-              Donar
-            </Link>
-            <Link href="/proyecto" className="bg-black/60 hover:bg-black/80 text-white border border-white/30 px-8 py-3 rounded-full font-bold transition transform hover:scale-105 backdrop-blur-sm">
-              Nuestro Proyecto
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* ====== HERO CON TEXTO REDUCIDO ====== */}
+<section className="relative min-h-[85vh] flex items-center justify-center text-center text-white overflow-hidden">
+  <div 
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style={{ backgroundImage: "url('/portada.jpg')" }}
+  />
+  <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/30 to-black/60" />
+  
+  <div className="relative z-10 px-4 py-16 max-w-3xl mx-auto">
+    
+    <h1 className="text-2xl md:text-4xl font-bold text-white mb-3 drop-shadow-lg">
+      Fundación Humanidad Nueva Visión
+    </h1>
+    
+    <p className="text-sm md:text-base text-gray-200 max-w-xl mx-auto mb-6 drop-shadow-md">
+      Capacitar · Acompañar · Bienestar · Éxito
+    </p>
+    
+    <div className="flex flex-wrap justify-center gap-3">
+      <Link 
+        href="/hazte-miembro" 
+        className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full font-semibold text-sm transition transform hover:scale-105 shadow-lg"
+      >
+        Hazte Miembro
+      </Link>
+      <Link 
+        href="/donar" 
+        className="bg-white hover:bg-gray-200 text-black px-6 py-2 rounded-full font-semibold text-sm transition transform hover:scale-105 shadow-lg"
+      >
+        Donar
+      </Link>
+      <Link 
+        href="/proyecto" 
+        className="bg-black/60 hover:bg-black/80 text-white border border-white/30 px-6 py-2 rounded-full font-semibold text-sm transition transform hover:scale-105 backdrop-blur-sm"
+      >
+        Nuestro Proyecto
+      </Link>
+    </div>
+  </div>
+</section>
 
       {/* ====== CARRUSEL ====== */}
       <section className="container mx-auto py-16 px-4">
