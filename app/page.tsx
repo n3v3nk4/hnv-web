@@ -41,7 +41,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       
-      {/* ====== HERO RESPONSIVE MÁS ALTO ====== */}
+      {/* ====== HERO ====== */}
       <section className="relative w-full h-screen min-h-[700px] flex items-center justify-center text-center text-white overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -57,22 +57,13 @@ export default function Home() {
             Capacitar · Acompañar · Bienestar · Éxito
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link 
-              href="/hazte-miembro" 
-              className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg"
-            >
+            <Link href="/hazte-miembro" className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg">
               Hazte Miembro
             </Link>
-            <Link 
-              href="/donar" 
-              className="bg-white hover:bg-gray-200 text-black px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg"
-            >
+            <Link href="/donar" className="bg-white hover:bg-gray-200 text-black px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg">
               Donar
             </Link>
-            <Link 
-              href="/proyecto" 
-              className="bg-black/60 hover:bg-black/80 text-white border border-white/30 px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 backdrop-blur-sm"
-            >
+            <Link href="/proyecto" className="bg-black/60 hover:bg-black/80 text-white border border-white/30 px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 backdrop-blur-sm">
               Nuestro Proyecto
             </Link>
           </div>
@@ -108,30 +99,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ====== CLUBES SOLO IMAGEN ====== */}
+      {/* ====== CLUBES CON IMAGEN COMPLETA ====== */}
       <section className="container mx-auto px-4 pb-20">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-10 text-black">Competencia</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
+          
+          {/* Club Matriarca */}
           <Link 
             href="/club-matriarca" 
-            className="group relative h-64 md:h-72 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition"
+            className="group relative w-full h-auto rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition"
           >
-            <div 
-              className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition duration-700" 
-              style={{ backgroundImage: "url('/club-matriarca.jpg')" }} 
+            <img 
+              src="/club-matriarca.jpg" 
+              alt="Club Matriarca"
+              className="w-full h-auto object-contain group-hover:scale-105 transition duration-700"
             />
           </Link>
 
+          {/* Club Patriarca */}
           <Link 
             href="/club-patriarca" 
-            className="group relative h-64 md:h-72 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition"
+            className="group relative w-full h-auto rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition"
           >
-            <div 
-              className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition duration-700" 
-              style={{ backgroundImage: "url('/club-patriarca.jpg')" }} 
+            <img 
+              src="/club-patriarca.jpg" 
+              alt="Club Patriarca"
+              className="w-full h-auto object-contain group-hover:scale-105 transition duration-700"
             />
           </Link>
+          
         </div>
       </section>
 
