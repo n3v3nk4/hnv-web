@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 
 export default function AdminLogin() {
@@ -8,14 +7,12 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const router = useRouter()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
 
-    // Convertir usuario a email interno
     const emailInterno = `${usuario.toLowerCase().trim()}@hnv.local`
 
     const { error } = await supabase.auth.signInWithPassword({
@@ -24,11 +21,13 @@ export default function AdminLogin() {
     })
 
     if (error) {
-      setError('Usuario o contraseña incorrectos')
+      console.error(error)
+      setError(`Error: ${error.message}`) // Ahora mostraremos el error real en pantalla
+      setLoading(false)
     } else {
-      router.push('/admin')
+      // Forzamos la recarga para que el servidor lea la sesión
+      window.location.href = '/admin'
     }
-    setLoading(false)
   }
 
   return (
