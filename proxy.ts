@@ -6,9 +6,14 @@ export async function proxy(request: NextRequest) {
     request,
   })
 
+  // Protección: si faltan las variables, no hagas nada y deja pasar la petición
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return supabaseResponse
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
@@ -27,7 +32,6 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  // IMPORTANTE: Refresca la sesión. No pongas redirecciones aquí.
   await supabase.auth.getUser()
 
   return supabaseResponse
