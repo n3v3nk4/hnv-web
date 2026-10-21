@@ -1,13 +1,13 @@
 'use client'
 import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
+import MetodosPago from '@/components/MetodosPago'
 
 export default function Donar() {
   const [loading, setLoading] = useState(false)
   const [donacionEnviada, setDonacionEnviada] = useState(false)
   const [tipoDonacion, setTipoDonacion] = useState<'money' | 'in_kind'>('money')
   const [esAnonimo, setEsAnonimo] = useState(false)
-  const [mostrarDatos, setMostrarDatos] = useState(false)
   const [formData, setFormData] = useState({
     donor_name: '', phone: '', email: '', amount_clp: '', description: '', city: '', message: ''
   })
@@ -56,7 +56,6 @@ export default function Donar() {
   return (
     <div className="min-h-screen bg-gray-50">
       
-      {/* ====== ENCABEZADO ELEGANTE ====== */}
       <section className="relative bg-black text-white py-24 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 left-0 w-96 h-96 bg-red-600 rounded-full blur-3xl" />
@@ -76,65 +75,20 @@ export default function Donar() {
         </div>
       </section>
 
-      {/* ====== FORMULARIO ====== */}
       <section className="container mx-auto max-w-3xl px-4 py-20">
         
-        {/* ====== MÉTODOS DE DONACIÓN ====== */}
         {tipoDonacion === 'money' && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-8">
-            <h2 className="text-2xl font-bold text-black mb-3 text-center">Donación en dinero</h2>
-            <p className="text-gray-600 mb-6 text-center text-sm">Elige el método de donación que prefieras:</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              
-              {/* PayPal */}
-              <div className="border border-gray-200 rounded-xl p-6 text-center hover:shadow-md transition">
-                <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.86a.641.641 0 0 1 .633-.536h6.718c2.182 0 3.867.448 5.006 1.332 1.139.884 1.708 2.185 1.708 3.906 0 .756-.11 1.482-.328 2.178-.219.696-.57 1.343-1.053 1.942-.484.598-1.098 1.093-1.842 1.485-.744.392-1.62.588-2.628.588h-2.356l-1.19 7.516a.641.641 0 0 1-.633.536z"/>
-                  </svg>
-                </div>
-                <h3 className="font-bold text-black mb-2">PayPal</h3>
-                <p className="text-xs text-gray-600 mb-4">Aporte sugerido: $20 USD</p>
-                <a 
-                  href="https://www.paypal.com/ncp/payment/E9G8W4L6Q3CRC" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition"
-                >
-                  Donar con PayPal
-                </a>
-              </div>
-
-              {/* Transferencia Bancaria */}
-              <div className="border border-gray-200 rounded-xl p-6 text-center hover:shadow-md transition">
-                <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L2 7v2h20V7L12 2zM2 11v8h4v-8H2zm6 0v8h4v-8H8zm6 0v8h4v-8h-4zm6 0v8h2v-8h-2z"/>
-                  </svg>
-                </div>
-                <h3 className="font-bold text-black mb-2">Transferencia bancaria</h3>
-                <p className="text-xs text-gray-600 mb-4">BancoEstado · Chequera Electrónica</p>
-                <button
-                  onClick={() => setMostrarDatos(true)}
-                  className="inline-block bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition"
-                >
-                  Ver datos bancarios
-                </button>
-              </div>
-
-            </div>
+            <MetodosPago />
           </div>
         )}
 
-        {/* ====== FORMULARIO ====== */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-10">
           <h2 className="text-2xl font-bold text-black mb-2">Registra tu donación</h2>
           <p className="text-gray-600 text-sm mb-8">Completa el formulario para que podamos hacer seguimiento a tu aporte.</p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             
-            {/* Tipo de donación */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">Tipo de donación</label>
               <div className="grid grid-cols-2 gap-4">
@@ -163,7 +117,6 @@ export default function Donar() {
               </div>
             </div>
 
-            {/* Tipo de donante */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">Tipo de donante</label>
               <div className="grid grid-cols-2 gap-4">
@@ -192,7 +145,6 @@ export default function Donar() {
               </div>
             </div>
 
-            {/* Datos personales */}
             {!esAnonimo && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
@@ -230,7 +182,6 @@ export default function Donar() {
               </div>
             )}
 
-            {/* Monto si es dinero */}
             {tipoDonacion === 'money' && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Monto de la donación (CLP)</label>
@@ -244,7 +195,6 @@ export default function Donar() {
               </div>
             )}
 
-            {/* Especie */}
             {tipoDonacion === 'in_kind' && (
               <>
                 <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
@@ -299,7 +249,6 @@ export default function Donar() {
           </form>
         </div>
 
-        {/* Contacto */}
         <div className="mt-8 bg-white rounded-2xl shadow-sm border border-gray-200 p-6 text-center">
           <p className="text-sm text-gray-600">
             Para consultas sobre donaciones, escríbenos a{' '}
@@ -313,31 +262,6 @@ export default function Donar() {
           </p>
         </div>
       </section>
-
-      {/* ====== MODAL CON IMAGEN DE DATOS BANCARIOS ====== */}
-      {mostrarDatos && (
-        <div 
-          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
-          onClick={() => setMostrarDatos(false)}
-        >
-          <div 
-            className="relative max-w-md w-full"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button 
-              onClick={() => setMostrarDatos(false)}
-              className="absolute -top-12 right-0 bg-white hover:bg-gray-200 text-black rounded-full w-10 h-10 flex items-center justify-center font-bold text-xl transition"
-            >
-              ×
-            </button>
-            <img 
-              src="/datos.jpg" 
-              alt="Datos para transferencia - Fundación Humanidad Nueva Visión"
-              className="w-full h-auto rounded-2xl shadow-2xl"
-            />
-          </div>
-        </div>
-      )}
     </div>
   )
 }
