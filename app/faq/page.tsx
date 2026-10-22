@@ -9,12 +9,12 @@ export default function FAQ() {
   const [abierto, setAbierto] = useState<number | null>(null)
 
   const faqs = [
-    { pregunta: '¿Qué es HNV?', respuesta: 'HNV — Humanidad Nueva Visión es una fundación sin fines de lucro que trabaja para contribuir al desarrollo de las personas y las comunidades mediante educación, autoconocimiento, desarrollo personal, bienestar, emprendimiento y oportunidades.' },
+    { pregunta: '¿Quiénes somos?', respuesta: 'HNV es una fundación sin fines de lucro que existe para asegurar la intervención de la Matriarca, ofreciendo una nueva alternativa de vida a los hijos. Nuestro trabajo es acompañar a las personas, capacitarlas para que se conozcan a sí mismas, se enfoquen en sí mismas, transformen sus vidas para fortalecer la comunidad donde viven. Promovemos el desarrollo integral a través de la educación, el autoconocimiento, el bienestar, el emprendimiento, el trabajo y la vivienda. Todo esto se hará realidad mediante grandes campus comunitarios estructurados como un verdadero ecosistema, que constituyen nuestro gran proyecto de construcción. Allí, cada persona encontrará un entorno bien equipado con herramientas, programas, servicios y oportunidades necesarias para desarrollar plenamente su potencial, mejorar su calidad de vida y estar preparada para contribuir al desarrollo de la comunidad en la que vive. Creemos que cada persona posee capacidades, talentos y potencial que pueden desarrollarse cuando recibe conocimiento, orientación, acompañamiento y oportunidades. Por eso, fundación HNV trabaja para crear espacios y programas destinados al desarrollo personal, la formación, el bienestar, la solidaridad, el emprendimiento y la transformación comunitaria. Nuestra visión es construir una nueva manera de acompañar a las personas para que puedan descubrir sus capacidades, superar dificultades, desarrollar sus proyectos y avanzar hacia una vida con mayor bienestar y autonomía.'},
     { pregunta: '¿Cuál es la misión de HNV?', respuesta: 'Nuestra misión es acompañar a las personas en el desarrollo de sus capacidades y potencial, brindándoles conocimientos, herramientas, servicios y oportunidades que les permitan avanzar hacia una vida con mayor autonomía y bienestar.' },
     { pregunta: '¿Cuál es el gran proyecto de HNV?', respuesta: 'Nuestro gran proyecto es la creación de los Campus Comunitarios HNV, concebidos como ecosistemas donde las personas puedan encontrar formación, bienestar, servicios, programas, herramientas y oportunidades en un mismo lugar.' },
     { pregunta: '¿Quién puede formar parte de HNV?', respuesta: 'Toda persona que comparta nuestros valores y desee participar, aprender, desarrollarse o contribuir a nuestra misión puede solicitar ser miembro de HNV.' },
     { pregunta: '¿Cómo puedo hacerme miembro?', respuesta: 'Puedes completar el formulario disponible en la sección "Hazte Miembro" de nuestra página web y seleccionar la modalidad de membresía que prefieras.' },
-    { pregunta: '¿Cuáles son las opciones de membresía?', respuesta: 'HNV dispone de diferentes aportes mensuales de membresía: $5.000, $15.000, $20.000 y $100.000. Cada persona puede elegir la opción que mejor se adapte a sus posibilidades.' },
+    { pregunta: '¿Cuáles son las opciones de membresía?', respuesta: 'HNV dispone de diferentes aportes mensuales de membresía: $15.000, $20.000 y $100.000. Cada persona puede elegir la opción que mejor se adapte a sus posibilidades.' },
     { pregunta: '¿Qué beneficios tienen los miembros?', respuesta: 'Los miembros pueden acceder a beneficios y actividades organizadas por HNV, entre ellos masterclasses de desarrollo personal, actividades de bienestar y otros programas que se irán incorporando progresivamente.' },
     { pregunta: '¿Puedo participar sin ser miembro?', respuesta: 'Sí. HNV desarrolla diferentes actividades, campañas y oportunidades de participación. Sin embargo, algunos programas o beneficios pueden estar destinados específicamente a los miembros.' },
     { pregunta: '¿Cómo puedo hacer una donación?', respuesta: 'Puedes ingresar a la sección "Donar" de nuestra página web y elegir la modalidad disponible para realizar tu aporte.' },
@@ -39,6 +39,16 @@ export default function FAQ() {
     e.preventDefault()
     setLoading(true)
     const { error } = await supabase.from('contact_messages').insert([formData])
+    
+    // NOTIFICACIÓN FORMSPREE
+    try {
+      await fetch('TU_LINK_DE_FORMSPREE', { // <-- REEMPLAZAR AQUÍ
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ _subject: "Nueva Consulta FAQ", ...formData })
+      })
+    } catch (err) { console.error(err) }
+
     if (!error) {
       setEnviado(true)
       setFormData({ nombre: '', email: '', mensaje: '' })
@@ -50,163 +60,63 @@ export default function FAQ() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      
-      {/* ====== ENCABEZADO ELEGANTE ====== */}
       <section className="relative bg-black text-white py-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-red-600 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-red-600 rounded-full blur-3xl" />
-        </div>
-        
+        <div className="absolute inset-0 opacity-5"><div className="absolute top-0 left-0 w-96 h-96 bg-red-600 rounded-full blur-3xl" /><div className="absolute bottom-0 right-0 w-96 h-96 bg-red-600 rounded-full blur-3xl" /></div>
         <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <p className="text-red-500 uppercase tracking-[0.3em] text-xs font-semibold mb-4">
-            Humanidad Nueva Visión
-          </p>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Preguntas Frecuentes
-          </h1>
+          <p className="text-red-500 uppercase tracking-[0.3em] text-xs font-semibold mb-4">Humanidad Nueva Visión</p>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">Preguntas Frecuentes</h1>
           <div className="w-24 h-1 bg-red-600 mx-auto mb-6" />
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Encuentra respuestas a las dudas más comunes sobre nuestra fundación.
-          </p>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">Encuentra respuestas a las dudas más comunes sobre nuestra fundación.</p>
         </div>
       </section>
 
-      {/* ====== PREGUNTAS ====== */}
       <section className="container mx-auto max-w-4xl px-4 py-20">
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div 
-              key={index}
-              className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden"
-            >
-              <button
-                onClick={() => setAbierto(abierto === index ? null : index)}
-                className="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-gray-50 transition"
-              >
-                <h3 className="text-base md:text-lg font-bold text-black pr-4">
-                  {faq.pregunta}
-                </h3>
-                <div className={`shrink-0 w-8 h-8 rounded-full bg-red-50 flex items-center justify-center transition-transform duration-300 ${abierto === index ? 'rotate-180' : ''}`}>
-                  <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
+            <div key={index} className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden">
+              <button onClick={() => setAbierto(abierto === index ? null : index)} className="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-gray-50 transition">
+                <h3 className="text-base md:text-lg font-bold text-black pr-4">{faq.pregunta}</h3>
+                <div className={`shrink-0 w-8 h-8 rounded-full bg-red-50 flex items-center justify-center transition-transform duration-300 ${abierto === index ? 'rotate-180' : ''}`}><svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
               </button>
-              
-              {abierto === index && (
-                <div className="px-6 pb-6 pt-0">
-                  <div className="w-full h-px bg-gray-200 mb-4" />
-                  <p className="text-gray-600 leading-relaxed text-sm md:text-base">
-                    {faq.respuesta}
-                  </p>
-                </div>
-              )}
+              {abierto === index && (<div className="px-6 pb-6 pt-0"><div className="w-full h-px bg-gray-200 mb-4" /><p className="text-gray-600 leading-relaxed text-sm md:text-base">{faq.respuesta}</p></div>)}
             </div>
           ))}
         </div>
       </section>
 
-      {/* ====== FORMULARIO DE CONTACTO ====== */}
       <section className="container mx-auto max-w-4xl px-4 pb-20">
         <div className="bg-linear-to-br from-black to-gray-900 rounded-2xl p-10 md:p-12 relative overflow-hidden">
-          {/* Patrón decorativo */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-3xl opacity-20" />
-          
           <div className="relative z-10">
             <div className="text-center mb-8">
-              <p className="text-red-500 uppercase tracking-[0.3em] text-xs font-semibold mb-4">
-                ¿Aún tienes dudas?
-              </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Envíanos tu pregunta
-              </h2>
-              <p className="text-gray-400 text-sm max-w-xl mx-auto">
-                Completa el formulario y te responderemos a la brevedad.
-              </p>
+              <p className="text-red-500 uppercase tracking-[0.3em] text-xs font-semibold mb-4">¿Aún tienes dudas?</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Envíanos tu pregunta</h2>
+              <p className="text-gray-400 text-sm max-w-xl mx-auto">Completa el formulario y te responderemos a la brevedad.</p>
             </div>
-
             {enviado ? (
               <div className="bg-green-50 border border-green-200 rounded-xl p-6 text-green-700 text-center max-w-lg mx-auto">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <p className="font-semibold">¡Gracias por escribirnos!</p>
-                <p className="text-sm mt-1">Te responderemos a la brevedad.</p>
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3"><svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg></div>
+                <p className="font-semibold">¡Gracias por escribirnos!</p><p className="text-sm mt-1">Te responderemos a la brevedad.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto">
-                <input 
-                  type="text" 
-                  placeholder="Tu nombre" 
-                  value={formData.nombre} 
-                  onChange={(e) => setFormData({ ...formData, nombre: e.target.value })} 
-                  className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                  required 
-                />
-                <input 
-                  type="email" 
-                  placeholder="Tu correo electrónico" 
-                  value={formData.email} 
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })} 
-                  className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                  required 
-                />
-                <textarea 
-                  placeholder="Escribe tu pregunta..." 
-                  value={formData.mensaje} 
-                  onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })} 
-                  rows={4} 
-                  className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                  required 
-                />
-                <button 
-                  type="submit" 
-                  disabled={loading} 
-                  className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-bold transition disabled:opacity-50"
-                >
-                  {loading ? 'Enviando...' : 'Enviar pregunta'}
-                </button>
+                <input type="text" placeholder="Tu nombre" value={formData.nombre} onChange={(e) => setFormData({ ...formData, nombre: e.target.value })} className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" required />
+                <input type="email" placeholder="Tu correo electrónico" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" required />
+                <textarea placeholder="Escribe tu pregunta..." value={formData.mensaje} onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })} rows={4} className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" required />
+                <button type="submit" disabled={loading} className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-bold transition disabled:opacity-50">{loading ? 'Enviando...' : 'Enviar pregunta'}</button>
               </form>
             )}
-
-            {/* ====== CONTACTO DIRECTO ====== */}
             <div className="mt-10 pt-8 border-t border-white/10 text-center">
               <p className="text-gray-400 text-sm mb-4">O contáctanos directamente:</p>
               <div className="flex flex-wrap gap-3 justify-center">
-                <a 
-                  href="mailto:nuevavisionfundacion2026@gmail.com" 
-                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-full text-sm font-medium transition"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  Correo
-                </a>
-                <a 
-                  href="https://wa.me/56988923943" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-full text-sm font-medium transition"
-                >
-                  WhatsApp 1
-                </a>
-                <a 
-                  href="https://wa.me/56991327162" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="inline-flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white px-5 py-2.5 rounded-full text-sm font-medium transition"
-                >
-                  WhatsApp 2
-                </a>
+                <a href="mailto:nuevavisionfundacion2026@gmail.com" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-full text-sm font-medium transition"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Correo</a>
+                <a href="https://wa.me/56988923943" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-full text-sm font-medium transition">WhatsApp 1</a>
+                <a href="https://wa.me/56991327162" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white px-5 py-2.5 rounded-full text-sm font-medium transition">WhatsApp 2</a>
               </div>
             </div>
           </div>
         </div>
       </section>
-
     </div>
   )
 }

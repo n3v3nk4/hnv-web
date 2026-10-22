@@ -6,6 +6,7 @@ import BotonesFlotantes from '@/components/BotonesFlotantes'
 import BotonCompartir from '@/components/BotonCompartir'
 import BotonTraduccion from '@/components/BotonTraduccion'
 import BotonInstalarApp from '@/components/BotonInstalarApp'
+import BannerGoFundMe from '@/components/BannerGoFundMe'
 
 export const metadata: Metadata = {
   title: 'HNV - Humanidad Nueva Visión',
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="bg-white text-black">
+        <BannerGoFundMe />
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />
@@ -29,7 +31,6 @@ export default function RootLayout({
         <BotonCompartir />
         <BotonTraduccion />
         <BotonInstalarApp />
-        
       </body>
     </html>
   )
