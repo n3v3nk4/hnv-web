@@ -12,22 +12,23 @@ export default function BannerGoFundMe() {
 
   if (!visible) return null
 
+  // Al quitar "fixed", el banner empuja el contenido hacia abajo y no tapa el Navbar
   return (
-    <div className="fixed top-0 left-0 w-full z-60 bg-red-600 text-white py-2 px-3 shadow-md animate-slide-down">
+    <div className="w-full z-50 bg-red-600 text-white py-2 px-4 shadow-md animate-slide-down">
       <div className="container mx-auto flex items-center justify-between gap-2">
-        <p className="text-[10px] sm:text-xs md:text-sm font-medium text-center flex-1 leading-tight">
+        <p className="text-xs sm:text-sm font-medium text-center flex-1 leading-tight">
           🌍 ¡Apoya nuestro proyecto en Haití! <strong>Campaña en GoFundMe</strong>
         </p>
         <a 
           href="https://gofund.me/adfdd0bf9" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="bg-white text-red-600 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold hover:bg-gray-100 transition whitespace-nowrap"
+          className="bg-white text-red-600 px-4 py-1 rounded-full text-xs font-bold hover:bg-gray-100 transition whitespace-nowrap"
         >
           Donar
         </a>
-        <button onClick={() => setVisible(false)} className="text-white hover:text-gray-200 ml-1">
-          <X size={16} />
+        <button onClick={() => setVisible(false)} className="text-white hover:text-gray-200 ml-2">
+          <X size={18} />
         </button>
       </div>
     </div>
