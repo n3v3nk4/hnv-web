@@ -69,10 +69,14 @@ img {
   object-position: center;
 }
 
+/* ========================================== */
+/* ANIMACIONES (Banner GoFundMe) */
+/* ========================================== */
 @keyframes slide-down {
   from { transform: translateY(-100%); }
   to { transform: translateY(0); }
 }
+
 .animate-slide-down {
   animation: slide-down 0.5s ease-out forwards;
 }

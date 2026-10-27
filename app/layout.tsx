@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import MenuFlotante from '@/components/MenuFlotante' // <-- IMPORTAMOS EL NUEVO
+import MenuFlotante from '@/components/MenuFlotante'
+import BannerGoFundMe from '@/components/BannerGoFundMe' // <-- AGREGAR AQUÍ
 
 export const metadata: Metadata = {
   title: 'HNV - Humanidad Nueva Visión',
@@ -17,11 +18,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="bg-white text-black">
+        <BannerGoFundMe /> {/* <-- AGREGAR AQUÍ */}
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />
-        
-        {/* Solo usamos este menú unificado */}
         <MenuFlotante />
       </body>
     </html>

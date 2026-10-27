@@ -12,7 +12,6 @@ export default function BannerGoFundMe() {
 
   if (!visible) return null
 
-  // Al quitar "fixed", el banner empuja el contenido hacia abajo y no tapa el Navbar
   return (
     <div className="w-full z-50 bg-red-600 text-white py-2 px-4 shadow-md animate-slide-down">
       <div className="container mx-auto flex items-center justify-between gap-2">
