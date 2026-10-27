@@ -40,27 +40,36 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       
-      {/* HERO */}
-      <section className="relative w-full h-screen min-h-175 flex items-center justify-center text-center text-white overflow-hidden">
+      {/* ====== HERO RESPONSIVE ====== */}
+      <section className="relative w-full h-screen min-h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/portada.jpg')" }} />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/50" />
         
-        <div className="relative z-10 px-4 py-8 max-w-3xl mx-auto">
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-2xl">
+        <div className="relative z-10 px-6 py-8 max-w-4xl mx-auto flex flex-col items-center">
+          {/* Título más pequeño en celular para que no se corte */}
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-2xl leading-tight">
             Fundación Humanidad Nueva Visión
           </h1>
-          <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto mb-6 md:mb-8 drop-shadow-lg">
+          <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto mb-8 md:mb-10 drop-shadow-lg">
             Capacitar · Acompañar · Bienestar · Éxito
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/hazte-miembro" className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg">Hazte Miembro</Link>
-            <Link href="/donar" className="bg-white hover:bg-gray-200 text-black px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg">Donar</Link>
-            <Link href="/proyecto" className="bg-black/60 hover:bg-black/80 text-white border border-white/30 px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 backdrop-blur-sm">Nuestro Proyecto</Link>
+          
+          {/* Botones apilados en celular para no chocar con los flotantes */}
+          <div className="flex flex-col sm:flex-row justify-center gap-3 w-full max-w-xs sm:max-w-none">
+            <Link href="/hazte-miembro" className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg w-full sm:w-auto">
+              Hazte Miembro
+            </Link>
+            <Link href="/donar" className="bg-white hover:bg-gray-200 text-black px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg w-full sm:w-auto">
+              Donar
+            </Link>
+            <Link href="/proyecto" className="bg-black/60 hover:bg-black/80 text-white border border-white/30 px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 backdrop-blur-sm w-full sm:w-auto">
+              Nuestro Proyecto
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* CARRUSEL */}
+      {/* ====== CARRUSEL ====== */}
       <section className="container mx-auto py-16 px-4">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-10 text-black">Explora HNV</h2>
         <div className="relative">
@@ -81,7 +90,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CLUBES */}
+      {/* ====== CLUBES ====== */}
       <section className="container mx-auto px-4 pb-20">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-10 text-black">COMPETICIÓN entre club MATRIARCA y club PATRIARCA</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
