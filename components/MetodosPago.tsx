@@ -9,7 +9,7 @@ export default function MetodosPago() {
     <div className="w-full max-w-4xl mx-auto">
       <h3 className="text-2xl font-bold text-black mb-8 text-center">Formas de Donar</h3>
       
-      {/* ====== 1. BLOQUE DE PAYPAL ====== */}
+      {/* PayPal */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8 text-center flex flex-col items-center justify-center">
         <div className="flex items-center justify-center gap-3 mb-4">
           <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center">
@@ -22,12 +22,9 @@ export default function MetodosPago() {
             <p className="text-xs text-gray-500">Donación libre (Internacional)</p>
           </div>
         </div>
-        
-        {/* El contenedor tiene altura fija y oculta lo que se salga para que no rompa el diseño */}
-        <div className="w-full max-w-[250px] h-[50px] overflow-hidden flex justify-center items-center">
+        <div className="w-full max-w-62.5 h-12.5 overflow-hidden flex justify-center items-center">
           <div id="paypal-container-Y333B3FNT9T5S" className="w-full"></div>
         </div>
-        
         <Script 
           src="https://www.paypal.com/sdk/js?client-id=BAAFj3BEROrhb_EoDCuD-U0SWpz-2x1dQpqu-WtONbKib9wgbXZUlgvfgbPtVbtGyg3SAk-FQj5oh-9YAs&components=hosted-buttons&disable-funding=venmo&currency=USD&style.size=responsive"
           strategy="afterInteractive"
@@ -43,10 +40,8 @@ export default function MetodosPago() {
         />
       </div>
 
-      {/* ====== 2. OTRAS OPCIONES ====== */}
+      {/* Otras opciones */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        
-        {/* Mercado Pago */}
         <div className="border border-gray-200 rounded-xl p-6 text-center hover:shadow-md transition bg-white flex flex-col justify-between">
           <div>
             <div className="w-10 h-10 bg-sky-50 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -62,7 +57,6 @@ export default function MetodosPago() {
           </a>
         </div>
 
-        {/* Transferencia */}
         <div className="border border-gray-200 rounded-xl p-6 text-center hover:shadow-md transition bg-white flex flex-col justify-between">
           <div>
             <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -78,7 +72,6 @@ export default function MetodosPago() {
           </button>
         </div>
 
-        {/* GoFundMe */}
         <div className="border border-gray-200 rounded-xl p-6 text-center hover:shadow-md transition bg-white flex flex-col justify-between">
           <div>
             <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -93,17 +86,14 @@ export default function MetodosPago() {
             Ir a GoFundMe
           </a>
         </div>
-
       </div>
 
-      {/* ====== IMAGEN DE TRANSFERENCIA ====== */}
       {mostrarDatos && (
         <div className="mt-8 bg-white p-6 rounded-2xl border border-gray-200 text-center max-w-lg mx-auto">
           <h4 className="font-bold text-black mb-4">Datos para Transferencia</h4>
           <img src="/datos.jpg" alt="Datos bancarios" className="w-full h-auto rounded-lg mx-auto" />
         </div>
       )}
-
     </div>
   )
 }

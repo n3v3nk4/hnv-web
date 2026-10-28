@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Image from 'next/image'
 import { supabase } from '@/lib/supabaseClient'
 
 export default function AdminLogin() {
@@ -13,6 +14,7 @@ export default function AdminLogin() {
     setLoading(true)
     setError('')
 
+    // Convertimos el usuario a un correo interno para Supabase
     const emailInterno = `${usuario.toLowerCase().trim()}@hnv.local`
 
     const { error } = await supabase.auth.signInWithPassword({
@@ -21,11 +23,10 @@ export default function AdminLogin() {
     })
 
     if (error) {
-      console.error(error)
-      setError(`Error: ${error.message}`) // Ahora mostraremos el error real en pantalla
+      setError('Usuario o contraseña incorrectos')
       setLoading(false)
     } else {
-      // Forzamos la recarga para que el servidor lea la sesión
+      // Forzamos la recarga completa para que el servidor detecte la sesión
       window.location.href = '/admin'
     }
   }
@@ -34,18 +35,16 @@ export default function AdminLogin() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-10 max-w-md w-full">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
+          <div className="relative w-20 h-20 mx-auto mb-4">
+            <Image src="/logo.jpg" alt="HNV" fill sizes="80px" className="object-contain rounded-full" />
           </div>
           <h1 className="text-2xl font-bold text-black">Acceso Administrativo</h1>
-          <p className="text-gray-600 text-sm mt-2">Solo para el directorio de HNV</p>
+          <p className="text-gray-600 text-sm mt-2">Ingresa tus credenciales para gestionar la página</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm p-3 rounded-lg">
+            <div className="bg-red-50 border border-red-200 text-red-700 text-sm p-3 rounded-lg text-center">
               {error}
             </div>
           )}
@@ -76,13 +75,13 @@ export default function AdminLogin() {
             disabled={loading}
             className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-bold transition disabled:opacity-50"
           >
-            {loading ? 'Ingresando...' : 'Ingresar'}
+            {loading ? 'Ingresando...' : 'Ingresar al Panel'}
           </button>
         </form>
 
         <div className="mt-6 text-center">
-          <a href="/" className="text-sm text-gray-500 hover:text-red-600">
-            ← Volver al inicio
+          <a href="/" className="text-sm text-gray-500 hover:text-red-600 transition">
+            ← Volver a la página principal
           </a>
         </div>
       </div>

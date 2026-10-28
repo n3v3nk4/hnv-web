@@ -40,29 +40,27 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       
-      {/* ====== HERO RESPONSIVE ====== */}
-      <section className="relative w-full h-screen min-h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
+      {/* ====== HERO CORREGIDO ====== */}
+      <section className="relative w-full h-dvh min-h-150 flex items-center justify-center text-center text-white overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/portada.jpg')" }} />
         <div className="absolute inset-0 bg-black/50" />
         
-        <div className="relative z-10 px-6 py-8 max-w-4xl mx-auto flex flex-col items-center">
-          {/* Título más pequeño en celular para que no se corte */}
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-2xl leading-tight">
+        <div className="relative z-10 px-4 py-8 max-w-4xl mx-auto flex flex-col items-center justify-center h-full">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-2xl leading-tight mt-16 md:mt-0">
             Fundación Humanidad Nueva Visión
           </h1>
-          <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto mb-8 md:mb-10 drop-shadow-lg">
+          <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto mb-6 md:mb-8 drop-shadow-lg">
             Capacitar · Acompañar · Bienestar · Éxito
           </p>
           
-          {/* Botones apilados en celular para no chocar con los flotantes */}
-          <div className="flex flex-col sm:flex-row justify-center gap-3 w-full max-w-xs sm:max-w-none">
-            <Link href="/hazte-miembro" className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 w-full max-w-70 sm:max-w-none mb-16">
+            <Link href="/hazte-miembro" className="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg w-full sm:w-auto text-center">
               Hazte Miembro
             </Link>
-            <Link href="/donar" className="bg-white hover:bg-gray-200 text-black px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg w-full sm:w-auto">
+            <Link href="/donar" className="bg-white hover:bg-gray-200 text-black px-5 py-2.5 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 shadow-lg w-full sm:w-auto text-center">
               Donar
             </Link>
-            <Link href="/proyecto" className="bg-black/60 hover:bg-black/80 text-white border border-white/30 px-6 py-3 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 backdrop-blur-sm w-full sm:w-auto">
+            <Link href="/proyecto" className="bg-black/60 hover:bg-black/80 text-white border border-white/30 px-5 py-2.5 rounded-full font-bold text-sm md:text-base transition transform hover:scale-105 backdrop-blur-sm w-full sm:w-auto text-center">
               Nuestro Proyecto
             </Link>
           </div>
