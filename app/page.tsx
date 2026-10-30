@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       
-      {/* ====== HERO CORREGIDO ====== */}
+      {/* ====== HERO RESPONSIVE ====== */}
       <section className="relative w-full h-dvh min-h-150 flex items-center justify-center text-center text-white overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/portada.jpg')" }} />
         <div className="absolute inset-0 bg-black/50" />
