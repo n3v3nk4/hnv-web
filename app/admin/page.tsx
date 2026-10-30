@@ -1,63 +1,80 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { supabase } from '@/lib/supabaseClient'
 
 export default function AdminPanel() {
-  const [loading, setLoading] = useState(true)
+  const [password, setPassword] = useState('')
   const [autorizado, setAutorizado] = useState(false)
-  const [user, setUser] = useState<any>(null)
-  const router = useRouter()
+  const [error, setError] = useState(false)
 
+  // Verificamos si ya se autenticó en esta sesión del navegador
   useEffect(() => {
-    const checkAuth = async () => {
-      // Usamos getUser() para verificar la sesión de forma segura
-      const { data: { user }, error } = await supabase.auth.getUser()
-      
-      if (error || !user) {
-        router.replace('/admin/login')
-        return
-      }
-
-      // Verificamos que esté en la tabla de admins
-      const { data, error: dbError } = await supabase
-        .from('admins')
-        .select('*')
-        .eq('email', user.email)
-        .single()
-
-      if (dbError || !data) {
-        await supabase.auth.signOut()
-        router.replace('/admin/login')
-        return
-      }
-
-      setUser(data)
+    const isAuth = sessionStorage.getItem('admin_auth')
+    if (isAuth === 'true') {
       setAutorizado(true)
-      setLoading(false)
     }
+  }, [])
 
-    checkAuth()
-  }, [router])
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(false)
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut()
-    router.replace('/admin/login')
+    // Comparamos con la contraseña (por defecto HNV2026!Admin)
+    const passMaestra = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'HNV2026!Admin'
+    
+    if (password === passMaestra) {
+      sessionStorage.setItem('admin_auth', 'true')
+      setAutorizado(true)
+    } else {
+      setError(true)
+      setPassword('')
+    }
   }
 
-  if (loading) {
+  const handleLogout = () => {
+    sessionStorage.removeItem('admin_auth')
+    setAutorizado(false)
+  }
+
+  if (!autorizado) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Verificando acceso...</p>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-10 max-w-md w-full">
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-bold text-black">Panel de Administración</h1>
+            <p className="text-gray-600 text-sm mt-2">Ingresa la contraseña de administrador</p>
+          </div>
+          
+          <form onSubmit={handleLogin} className="space-y-4">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 text-sm p-3 rounded-lg text-center">
+                Contraseña incorrecta
+              </div>
+            )}
+            <div>
+              <input
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-bold transition"
+            >
+              Ingresar al Panel
+            </button>
+          </form>
+          <div className="mt-6 text-center">
+            <a href="/" className="text-sm text-gray-500 hover:text-red-600">← Volver al inicio</a>
+          </div>
         </div>
       </div>
     )
   }
-
-  if (!autorizado) return null
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -65,7 +82,7 @@ export default function AdminPanel() {
         <div className="container mx-auto flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Panel de Administración</h1>
-            <p className="text-xs text-gray-400">Bienvenida, {user?.nombre}</p>
+            <p className="text-xs text-gray-400">Bienvenido</p>
           </div>
           <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-medium transition">Cerrar Sesión</button>
         </div>
