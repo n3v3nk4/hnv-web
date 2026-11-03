@@ -129,16 +129,33 @@ export default function AdminGaleria() {
               {imagenes.map((img) => (
                 <div key={img.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm flex flex-col">
                   <div className="relative h-48 bg-black">
-                    {img.imagen_url.match(/\.(mp4|webm|ogg)$/i) ? (<video src={img.imagen_url} className="w-full h-full object-cover" />) : (<img src={img.imagen_url} alt={img.titulo} className="w-full h-full object-cover" />)}
+                    {img.imagen_url.match(/\.(mp4|webm|ogg)$/i) ? (
+                      <video src={img.imagen_url} className="w-full h-full object-cover" />
+                    ) : (
+                      <img src={img.imagen_url} alt={img.titulo} className="w-full h-full object-cover" />
+                    )}
                   </div>
+                  
                   <div className="p-4 flex-1 flex flex-col justify-between">
                     <div>
                       <h3 className="font-bold text-black mb-1">{img.titulo}</h3>
                       {img.descripcion && <p className="text-sm text-gray-600 mb-2">{img.descripcion}</p>}
                     </div>
-                    <div className="flex justify-end gap-2 mt-4">
-                      <button onClick={() => setEditando(img)} className="text-gray-500 hover:text-blue-600 transition p-2" title="Editar"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg></button>
-                      <button onClick={() => handleEliminar(img.id, img.imagen_url)} className="text-gray-500 hover:text-red-600 transition p-2" title="Eliminar"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
+                    
+                    {/* BOTONES VISIBLES DE EDITAR Y ELIMINAR */}
+                    <div className="flex gap-2 mt-4">
+                      <button 
+                        onClick={() => setEditando(img)} 
+                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold text-sm transition"
+                      >
+                        Editar
+                      </button>
+                      <button 
+                        onClick={() => handleEliminar(img.id, img.imagen_url)} 
+                        className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-semibold text-sm transition"
+                      >
+                        Eliminar
+                      </button>
                     </div>
                   </div>
                 </div>
