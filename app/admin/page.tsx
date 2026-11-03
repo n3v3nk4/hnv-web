@@ -64,13 +64,13 @@ export default function AdminPanel() {
       </header>
 
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
           <Link href="/admin/galeria" className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-xl transition-all group hover:-translate-y-1">
             <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-100 transition">
               <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
             </div>
             <h2 className="text-xl font-bold text-black mb-2">Galería de Fotos y Videos</h2>
-            <p className="text-gray-500 text-sm">Sube archivos para la sección pública.</p>
+            <p className="text-gray-500 text-sm">Sube, edita o elimina archivos.</p>
           </Link>
 
           <Link href="/admin/miembros" className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-xl transition-all group hover:-translate-y-1">
@@ -87,14 +87,6 @@ export default function AdminPanel() {
             </div>
             <h2 className="text-xl font-bold text-black mb-2">Registro de Donaciones</h2>
             <p className="text-gray-500 text-sm">Visualiza los montos y aportes.</p>
-          </Link>
-
-          <Link href="/admin/textos" className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-xl transition-all group hover:-translate-y-1">
-            <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-100 transition">
-              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-            </div>
-            <h2 className="text-xl font-bold text-black mb-2">Editar Textos</h2>
-            <p className="text-gray-500 text-sm">Modifica la portada de la web.</p>
           </Link>
         </div>
       </div>
