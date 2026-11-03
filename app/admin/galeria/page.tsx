@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
+import { registrarLog } from '@/lib/logger'
 
 interface Imagen {
   id: string
@@ -19,10 +20,10 @@ export default function AdminGaleria() {
   const [descripcion, setDescripcion] = useState('')
   const [archivo, setArchivo] = useState<File | null>(null)
   const [mensaje, setMensaje] = useState<{ tipo: 'exito' | 'error', texto: string } | null>(null)
+  const [imagenSeleccionada, setImagenSeleccionada] = useState<Imagen | null>(null)
   const router = useRouter()
 
   useEffect(() => {
-    // Verificación de sesión con sessionStorage
     const isAuth = sessionStorage.getItem('admin_auth')
     if (isAuth !== 'true') {
       router.push('/admin')
@@ -61,6 +62,9 @@ export default function AdminGaleria() {
       const { error: dbError } = await supabase.from('galeria').insert([{ titulo, descripcion, imagen_url: urlData.publicUrl }])
       if (dbError) throw dbError
 
+      // Registramos la acción en los logs
+      await registrarLog('Subida de archivo', `Se subió: ${titulo}`)
+
       setMensaje({ tipo: 'exito', texto: 'Archivo subido correctamente' })
       setTitulo('')
       setDescripcion('')
@@ -74,26 +78,32 @@ export default function AdminGaleria() {
     setSubiendo(false)
   }
 
-  const handleEliminar = async (id: string, url: string) => {
+  const handleEliminar = async (id: string, url: string, titulo: string) => {
     if (!confirm('¿Eliminar este archivo?')) return
     const path = url.split('/galeria/')[1]
     if (path) await supabase.storage.from('galeria').remove([`galeria/${path}`])
     await supabase.from('galeria').delete().eq('id', id)
+    
+    // Registramos la eliminación
+    await registrarLog('Eliminación de archivo', `Se eliminó: ${titulo}`)
+    
     cargarImagenes()
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-black text-white py-4 px-6">
+      {/* HEADER con botón de volver */}
+      <header className="bg-black text-white py-4 px-6 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">Gestión de Galería</h1>
-          <button onClick={() => router.push('/admin')} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm transition">
-            ← Volver al panel
+          <button onClick={() => router.push('/admin')} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm transition flex items-center gap-2">
+            ← Volver al Panel
           </button>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
+      <div className="container mx-auto px-4 py-12 max-w-5xl">
+        {/* FORMULARIO DE SUBIDA */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-12">
           <h2 className="text-xl font-bold text-black mb-6">Subir nueva imagen o video</h2>
           {mensaje && (
@@ -122,6 +132,7 @@ export default function AdminGaleria() {
           </form>
         </div>
 
+        {/* GALERÍA DE ARCHIVOS */}
         <div>
           <h2 className="text-xl font-bold text-black mb-6">Archivos actuales ({imagenes.length})</h2>
           {loading ? (
@@ -129,20 +140,27 @@ export default function AdminGaleria() {
           ) : imagenes.length === 0 ? (
             <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center"><p className="text-gray-500">No hay archivos subidos aún.</p></div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {imagenes.map((img) => (
-                <div key={img.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-                  <div className="relative h-48 bg-black">
+                <div key={img.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition group">
+                  <div className="relative h-48 bg-black overflow-hidden cursor-pointer" onClick={() => setImagenSeleccionada(img)}>
                     {img.imagen_url.match(/\.(mp4|webm|ogg)$/i) ? (
-                      <video src={img.imagen_url} className="w-full h-full object-cover" controls />
+                      <video src={img.imagen_url} className="w-full h-full object-cover" />
                     ) : (
-                      <img src={img.imagen_url} alt={img.titulo} className="w-full h-full object-cover" />
+                      <img src={img.imagen_url} alt={img.titulo} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
                     )}
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition flex items-center justify-center">
+                       <span className="text-white opacity-0 group-hover:opacity-100 transition font-semibold bg-black/50 px-3 py-1 rounded-full text-xs">Ver más grande</span>
+                    </div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-bold text-black mb-1">{img.titulo}</h3>
-                    {img.descripcion && <p className="text-sm text-gray-600 mb-2">{img.descripcion}</p>}
-                    <button onClick={() => handleEliminar(img.id, img.imagen_url)} className="text-sm text-red-600 hover:text-red-700 font-medium">Eliminar</button>
+                  <div className="p-4 flex justify-between items-center">
+                    <div>
+                      <h3 className="font-bold text-black mb-1">{img.titulo}</h3>
+                      {img.descripcion && <p className="text-sm text-gray-600 line-clamp-1">{img.descripcion}</p>}
+                    </div>
+                    <button onClick={() => handleEliminar(img.id, img.imagen_url, img.titulo)} className="text-gray-400 hover:text-red-600 transition p-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
                   </div>
                 </div>
               ))}
@@ -150,6 +168,31 @@ export default function AdminGaleria() {
           )}
         </div>
       </div>
+
+      {/* LIGHTBOX / MODAL PARA VER LA IMAGEN GRANDE */}
+      {imagenSeleccionada && (
+        <div 
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
+          onClick={() => setImagenSeleccionada(null)}
+        >
+          <div className="relative max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
+            <button 
+              onClick={() => setImagenSeleccionada(null)}
+              className="absolute -top-12 right-0 bg-white hover:bg-gray-200 text-black rounded-full w-10 h-10 flex items-center justify-center font-bold text-xl transition"
+            >
+              ×
+            </button>
+            {imagenSeleccionada.imagen_url.match(/\.(mp4|webm|ogg)$/i) ? (
+              <video src={imagenSeleccionada.imagen_url} className="w-full h-auto max-h-[80vh] rounded-2xl shadow-2xl" controls autoPlay />
+            ) : (
+              <img src={imagenSeleccionada.imagen_url} alt={imagenSeleccionada.titulo} className="w-full h-auto max-h-[80vh] object-contain rounded-2xl shadow-2xl" />
+            )}
+            <div className="bg-white p-4 rounded-b-2xl text-center mt-2">
+               <h3 className="font-bold text-black text-lg">{imagenSeleccionada.titulo}</h3>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

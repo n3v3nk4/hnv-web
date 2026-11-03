@@ -2,19 +2,38 @@
 import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { supabase } from '@/lib/supabaseClient'
 
 const slides = [
-  { id: 1, titulo: 'Hazte Miembro', subtitulo: 'Únete a la comunidad HNV', imagen: '/hazte-miembro.jpg', link: '/hazte-miembro' },
-  { id: 2, titulo: 'Donar', subtitulo: 'Transforma vidas con tu aporte', imagen: '/donar.jpg', link: '/donar' },
+  { id: 1, titulo: 'Galería', subtitulo: 'Nuestra comunidad en acción', imagen: '/galeria.jpg', link: '/galeria' },
+  { id: 2, titulo: 'Nuestro Proyecto', subtitulo: 'Campus Comunitarios HNV', imagen: '/proyecto.jpg', link: '/proyecto' },
   { id: 3, titulo: 'Ser Voluntario', subtitulo: 'Aporta tu talento a la comunidad', imagen: '/voluntario.jpg', link: '/voluntariado' },
-  { id: 4, titulo: 'Galería', subtitulo: 'Nuestra comunidad en acción', imagen: '/galeria.jpg', link: '/galeria' },
-  { id: 5, titulo: 'Nuestro Proyecto', subtitulo: 'Campus Comunitarios HNV', imagen: '/proyecto.jpg', link: '/proyecto' }
+  { id: 4, titulo: 'Donar', subtitulo: 'Transforma vidas con tu aporte', imagen: '/donar.jpg', link: '/donar' },
+  { id: 5, titulo: 'Hazte Miembro', subtitulo: 'Únete a la comunidad HNV', imagen: '/hazte-miembro.jpg', link: '/hazte-miembro' }
 ]
 
 export default function Home() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [puedeIzquierda, setPuedeIzquierda] = useState(false)
   const [puedeDerecha, setPuedeDerecha] = useState(true)
+
+  // Estados para los textos dinámicos (inician con los valores por defecto)
+  const [tituloHero, setTituloHero] = useState('Fundación Humanidad Nueva Visión')
+  const [subtituloHero, setSubtituloHero] = useState('Capacitar · Acompañar · Bienestar · Éxito')
+
+  // Cargar textos desde Supabase al iniciar
+  useEffect(() => {
+    const cargarTextos = async () => {
+      const { data } = await supabase.from('textos_web').select('*')
+      if (data) {
+        const t = data.find(d => d.id === 'hero_titulo')
+        const s = data.find(d => d.id === 'hero_subtitulo')
+        if (t) setTituloHero(t.contenido)
+        if (s) setSubtituloHero(s.contenido)
+      }
+    }
+    cargarTextos()
+  }, [])
 
   const actualizarFlechas = () => {
     if (scrollRef.current) {
@@ -40,17 +59,17 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       
-      {/* ====== HERO RESPONSIVE ====== */}
+      {/* HERO CON TEXTOS DINÁMICOS */}
       <section className="relative w-full h-dvh min-h-150 flex items-center justify-center text-center text-white overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/portada.jpg')" }} />
         <div className="absolute inset-0 bg-black/50" />
         
         <div className="relative z-10 px-4 py-8 max-w-4xl mx-auto flex flex-col items-center justify-center h-full">
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-2xl leading-tight mt-16 md:mt-0">
-            Fundación Humanidad Nueva Visión
+            {tituloHero}
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto mb-6 md:mb-8 drop-shadow-lg">
-            Capacitar · Acompañar · Bienestar · Éxito
+            {subtituloHero}
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 w-full max-w-70 sm:max-w-none mb-16">
@@ -67,7 +86,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ====== CARRUSEL ====== */}
+      {/* CARRUSEL */}
       <section className="container mx-auto py-16 px-4">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-10 text-black">Explora HNV</h2>
         <div className="relative">
@@ -88,7 +107,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ====== CLUBES ====== */}
+      {/* CLUBES */}
       <section className="container mx-auto px-4 pb-20">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-10 text-black">COMPETICIÓN entre club MATRIARCA y club PATRIARCA</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
