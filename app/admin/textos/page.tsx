@@ -4,84 +4,66 @@ import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 
 export default function AdminTextos() {
-  const [loading, setLoading] = useState(true)
-  const [guardando, setGuardando] = useState(false)
-  const [textos, setTextos] = useState<any>({})
+  const [titulo, setTitulo] = useState('')
+  const [subtitulo, setSubtitulo] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [mensaje, setMensaje] = useState('')
   const router = useRouter()
 
   useEffect(() => {
-    const checkAuthAndFetch = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/admin/login')
-        return
+    const isAuth = sessionStorage.getItem('admin_auth')
+    if (isAuth !== 'true') { router.push('/admin'); return }
+    
+    // Cargar textos actuales desde Supabase (asumiendo que tienes una tabla 'textos')
+    // Si no la tienes, crea una tabla simple en Supabase: id (text), contenido (text)
+    const cargar = async () => {
+      const { data } = await supabase.from('textos').select('*')
+      if (data) {
+        const t = data.find(d => d.id === 'hero_titulo')
+        const s = data.find(d => d.id === 'hero_subtitulo')
+        if (t) setTitulo(t.contenido)
+        if (s) setSubtitulo(s.contenido)
       }
-
-      const { data } = await supabase.from('textos_web').select('*')
-      const textosObj = data?.reduce((acc, item) => ({ ...acc, [item.id]: item.contenido }), {})
-      setTextos(textosObj || {})
-      setLoading(false)
     }
-    checkAuthAndFetch()
+    cargar()
   }, [router])
 
   const handleGuardar = async (e: React.FormEvent) => {
     e.preventDefault()
-    setGuardando(true)
+    setLoading(true)
+    setMensaje('')
 
-    for (const [id, contenido] of Object.entries(textos)) {
-      await supabase.from('textos_web').update({ contenido: contenido as string }).eq('id', id)
-    }
+    // Guardar o actualizar en Supabase
+    await supabase.from('textos').upsert({ id: 'hero_titulo', contenido: titulo })
+    await supabase.from('textos').upsert({ id: 'hero_subtitulo', contenido: subtitulo })
 
-    alert('¡Textos actualizados correctamente!')
-    setGuardando(false)
+    setMensaje('Textos actualizados correctamente')
+    setLoading(false)
   }
-
-  if (loading) return <div className="p-10 text-center">Cargando...</div>
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
         <h1 className="text-2xl font-bold text-black mb-6">Editar Textos de la Portada</h1>
         
+        {mensaje && <div className="bg-green-50 text-green-700 p-3 rounded-lg mb-4">{mensaje}</div>}
+
         <form onSubmit={handleGuardar} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Título Principal</label>
-            <input 
-              type="text" 
-              value={textos['hero_titulo'] || ''} 
-              onChange={(e) => setTextos({ ...textos, hero_titulo: e.target.value })}
-              className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" 
-            />
+            <input type="text" value={titulo} onChange={(e) => setTitulo(e.target.value)} className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500" />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Subtítulo</label>
-            <input 
-              type="text" 
-              value={textos['hero_subtitulo'] || ''} 
-              onChange={(e) => setTextos({ ...textos, hero_subtitulo: e.target.value })}
-              className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" 
-            />
+            <input type="text" value={subtitulo} onChange={(e) => setSubtitulo(e.target.value)} className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500" />
           </div>
-
-          <div className="flex gap-4">
-            <button 
-              type="submit" 
-              disabled={guardando}
-              className="flex-1 bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-bold transition disabled:opacity-50"
-            >
-              {guardando ? 'Guardando...' : 'Guardar Cambios'}
-            </button>
-            <button 
-              type="button"
-              onClick={() => router.push('/admin')}
-              className="px-6 bg-gray-200 hover:bg-gray-300 text-black py-4 rounded-xl font-bold transition"
-            >
-              Volver
-            </button>
-          </div>
+          <button type="submit" disabled={loading} className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-bold transition">
+            {loading ? 'Guardando...' : 'Guardar Cambios'}
+          </button>
         </form>
+        <div className="mt-6 text-center">
+          <a href="/admin" className="text-sm text-gray-500 hover:text-red-600">← Volver al panel</a>
+        </div>
       </div>
     </div>
   )
