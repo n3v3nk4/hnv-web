@@ -1,6 +1,43 @@
+
 'use client'
+
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import {
+  Image,
+  Users,
+  HandCoins,
+  LogOut,
+  LockKeyhole,
+  ArrowRight,
+  ShieldCheck,
+  LayoutDashboard,
+  AlertCircle,
+} from 'lucide-react'
+
+const secciones = [
+  {
+    titulo: 'Galería de Fotos y Videos',
+    descripcion: 'Administra las fotografías y videos de las actividades de nuestra fundación.',
+    etiqueta: 'Contenido multimedia',
+    href: '/admin/galeria',
+    icono: Image,
+  },
+  {
+    titulo: 'Solicitudes de Membresía',
+    descripcion: 'Consulta y revisa la información de las personas que desean ser miembros.',
+    etiqueta: 'Comunidad HNV',
+    href: '/admin/miembros',
+    icono: Users,
+  },
+  {
+    titulo: 'Registro de Donaciones',
+    descripcion: 'Visualiza los aportes y registros de donaciones recibidas.',
+    etiqueta: 'Aportes solidarios',
+    href: '/admin/donaciones',
+    icono: HandCoins,
+  },
+]
 
 export default function AdminPanel() {
   const [password, setPassword] = useState('')
@@ -9,18 +46,23 @@ export default function AdminPanel() {
 
   useEffect(() => {
     const isAuth = sessionStorage.getItem('admin_auth')
+
     if (isAuth === 'true') {
       setAutorizado(true)
     }
   }, [])
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(false)
-    const passMaestra = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'HNV2026!Admin'
+
+    const passMaestra =
+      process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'HNV2026!Admin'
+
     if (password === passMaestra) {
       sessionStorage.setItem('admin_auth', 'true')
       setAutorizado(true)
+      setPassword('')
     } else {
       setError(true)
       setPassword('')
@@ -30,66 +72,246 @@ export default function AdminPanel() {
   const handleLogout = () => {
     sessionStorage.removeItem('admin_auth')
     setAutorizado(false)
+    setPassword('')
+    setError(false)
   }
 
+  // Pantalla de acceso
   if (!autorizado) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-10 max-w-md w-full">
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-black">Panel de Administración</h1>
-            <p className="text-gray-600 text-sm mt-2">Ingresa la contraseña</p>
+      <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#111111] px-4 py-12">
+        <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-red-600/20 blur-3xl" />
+        <div className="absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-red-600/10 blur-3xl" />
+
+        <div className="relative w-full max-w-md">
+          <div className="mb-8 text-center text-white">
+            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-red-500/30 bg-red-600/15 text-red-400">
+              <ShieldCheck size={34} />
+            </div>
+
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-red-400">
+              Fundación Humanidad Nueva Visión
+            </p>
+
+            <h1 className="mt-3 text-3xl font-extrabold">
+              Panel de Administración
+            </h1>
+
+            <p className="mt-3 text-sm text-gray-400">
+              Ingresa tu contraseña para acceder.
+            </p>
           </div>
-          <form onSubmit={handleLogin} className="space-y-4">
-            {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm p-3 rounded-lg text-center">Contraseña incorrecta</div>}
-            <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" required />
-            <button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-bold transition">Ingresar</button>
-          </form>
-          <div className="mt-6 text-center"><a href="/" className="text-sm text-gray-500 hover:text-red-600">← Volver al inicio</a></div>
+
+          <div className="rounded-3xl border border-gray-200 bg-white p-7 shadow-2xl sm:p-9">
+            <div className="mb-7 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-red-600">
+                <LockKeyhole size={24} />
+              </div>
+
+              <h2 className="text-xl font-bold text-gray-900">
+                Acceso privado
+              </h2>
+
+              <p className="mt-1 text-sm text-gray-500">
+                Área exclusiva para administradores.
+              </p>
+            </div>
+
+            <form onSubmit={handleLogin} className="space-y-5">
+              {error && (
+                <div className="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                  <AlertCircle size={18} />
+                  Contraseña incorrecta. Inténtalo nuevamente.
+                </div>
+              )}
+
+              <div>
+                <label
+                  htmlFor="password"
+                  className="mb-2 block text-sm font-semibold text-gray-700"
+                >
+                  Contraseña de administrador
+                </label>
+
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="Ingresa tu contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
+                  className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-4 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-red-500 focus:bg-white focus:ring-4 focus:ring-red-500/10"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 py-4 font-bold text-white shadow-lg shadow-red-600/20 transition hover:bg-red-700 active:scale-[0.98]"
+              >
+                Ingresar al panel
+                <ArrowRight size={19} />
+              </button>
+            </form>
+
+            <div className="mt-7 border-t border-gray-100 pt-5 text-center">
+              <Link
+                href="/"
+                className="text-sm font-medium text-gray-500 transition hover:text-red-600"
+              >
+                ← Volver al sitio web
+              </Link>
+            </div>
+          </div>
+
+          <p className="mt-7 text-center text-xs text-gray-500">
+            © Fundación Humanidad Nueva Visión
+          </p>
         </div>
-      </div>
+      </main>
     )
   }
 
+  // Panel principal
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-black text-white py-4 px-6 shadow-md">
-        <div className="container mx-auto flex justify-between items-center">
-          <div>
-            <h1 className="text-xl font-bold">Panel de Administración</h1>
-            <p className="text-xs text-gray-400">Bienvenido</p>
+    <main className="min-h-screen bg-gray-50">
+      {/* Encabezado */}
+      <header className="relative overflow-hidden bg-[#111111] text-white shadow-lg">
+        <div className="absolute -right-20 -top-32 h-72 w-72 rounded-full bg-red-600/20 blur-3xl" />
+
+        <div className="relative mx-auto flex max-w-7xl flex-col justify-between gap-5 px-5 py-7 sm:flex-row sm:items-center sm:px-8">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600 shadow-lg shadow-red-600/20">
+              <LayoutDashboard size={25} />
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-red-400">
+                Fundación HNV
+              </p>
+
+              <h1 className="text-xl font-extrabold sm:text-2xl">
+                Panel de Administración
+              </h1>
+
+              <p className="mt-1 text-xs text-gray-400">
+                Gestión y administración del sitio web
+              </p>
+            </div>
           </div>
-          <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-medium transition">Cerrar Sesión</button>
+
+          <button
+            onClick={handleLogout}
+            className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:border-red-500 hover:bg-red-600"
+          >
+            <LogOut size={17} />
+            Cerrar sesión
+          </button>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <Link href="/admin/galeria" className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-xl transition-all group hover:-translate-y-1">
-            <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-100 transition">
-              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-            </div>
-            <h2 className="text-xl font-bold text-black mb-2">Galería de Fotos y Videos</h2>
-            <p className="text-gray-500 text-sm">Sube, edita o elimina archivos.</p>
-          </Link>
+      {/* Contenido */}
+      <section className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16">
+        <div className="mb-10">
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">
+            Administración interna
+          </span>
 
-          <Link href="/admin/miembros" className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-xl transition-all group hover:-translate-y-1">
-            <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-100 transition">
-              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-            </div>
-            <h2 className="text-xl font-bold text-black mb-2">Solicitudes de Membresía</h2>
-            <p className="text-gray-500 text-sm">Revisa los datos de las personas.</p>
-          </Link>
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            Bienvenido al panel
+          </h2>
 
-          <Link href="/admin/donaciones" className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-xl transition-all group hover:-translate-y-1">
-            <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-100 transition">
-              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <p className="mt-3 max-w-2xl text-base leading-7 text-gray-600">
+            Desde aquí puedes administrar los contenidos y revisar
+            la información relacionada con las actividades de la fundación.
+          </p>
+        </div>
+
+        <div className="mb-7 flex items-center gap-3">
+          <div className="h-7 w-1 rounded-full bg-red-600" />
+
+          <h3 className="text-lg font-bold text-gray-900">
+            Herramientas de gestión
+          </h3>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {secciones.map((seccion) => {
+            const Icono = seccion.icono
+
+            return (
+              <Link
+                key={seccion.href}
+                href={seccion.href}
+                className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl"
+              >
+                <div className="absolute right-0 top-0 h-28 w-28 rounded-bl-full bg-red-50 transition group-hover:bg-red-100" />
+
+                <div className="relative">
+                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-600 transition duration-300 group-hover:bg-red-600 group-hover:text-white">
+                    <Icono size={28} />
+                  </div>
+
+                  <span className="text-xs font-bold uppercase tracking-wider text-red-600">
+                    {seccion.etiqueta}
+                  </span>
+
+                  <h3 className="mt-2 text-xl font-extrabold text-gray-900">
+                    {seccion.titulo}
+                  </h3>
+
+                  <p className="mt-3 min-h-[72px] text-sm leading-6 text-gray-500">
+                    {seccion.descripcion}
+                  </p>
+
+                  <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-5">
+                    <span className="text-sm font-bold text-gray-800 transition group-hover:text-red-600">
+                      Administrar sección
+                    </span>
+
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition group-hover:bg-red-600 group-hover:text-white">
+                      <ArrowRight size={18} />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+
+        {/* Estado de sesión */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 rounded-2xl border border-gray-200 bg-white p-6 sm:flex-row">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-50 text-green-600">
+              <ShieldCheck size={21} />
             </div>
-            <h2 className="text-xl font-bold text-black mb-2">Registro de Donaciones</h2>
-            <p className="text-gray-500 text-sm">Visualiza los montos y aportes.</p>
+
+            <div>
+              <p className="font-bold text-gray-900">
+                Sesión iniciada
+              </p>
+
+              <p className="text-xs text-gray-500">
+                Bienvenido al área de administración HNV.
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/"
+            className="text-sm font-semibold text-red-600 transition hover:text-red-700"
+          >
+            Ver sitio web →
           </Link>
         </div>
-      </div>
-    </div>
+      </section>
+
+      {/* Pie */}
+      <footer className="border-t border-gray-200 bg-white px-5 py-6 text-center">
+        <p className="text-xs text-gray-500">
+          © Fundación Humanidad Nueva Visión · Panel de Administración
+        </p>
+      </footer>
+    </main>
   )
 }

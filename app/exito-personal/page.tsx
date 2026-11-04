@@ -1,190 +1,363 @@
+
 import Link from 'next/link'
+import {
+  ArrowRight,
+  Target,
+  Lightbulb,
+  Compass,
+  Brain,
+  CheckCircle2,
+  CalendarDays,
+  MessageCircle,
+  ClipboardCheck,
+  Sparkles,
+  ShieldCheck
+} from 'lucide-react'
+
+const areas = [
+  {
+    titulo: 'Autoconocimiento',
+    desc: 'Descubre tus fortalezas y valores.',
+    icon: Brain
+  },
+  {
+    titulo: 'Desarrollo personal',
+    desc: 'Construye hábitos para crecer.',
+    icon: Sparkles
+  },
+  {
+    titulo: 'Objetivos',
+    desc: 'Define metas y un plan realista.',
+    icon: Target
+  },
+  {
+    titulo: 'Decisiones',
+    desc: 'Aprende a decidir con confianza.',
+    icon: Compass
+  },
+  {
+    titulo: 'Disciplina',
+    desc: 'Desarrolla la constancia.',
+    icon: CheckCircle2
+  },
+  {
+    titulo: 'Resolución de problemas',
+    desc: 'Enfrenta obstáculos con estrategias.',
+    icon: Lightbulb
+  }
+]
+
+const pasos = [
+  {
+    num: '01',
+    titulo: 'Reserva',
+    desc: 'Paga y agenda tu sesión.',
+    icon: CalendarDays
+  },
+  {
+    num: '02',
+    titulo: 'Sesión',
+    desc: 'Espacio de escucha y orientación.',
+    icon: MessageCircle
+  },
+  {
+    num: '03',
+    titulo: 'Plan',
+    desc: 'Construimos un plan para ti.',
+    icon: ClipboardCheck
+  }
+]
 
 export default function ExitoPersonal() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      
-      {/* ====== ENCABEZADO ELEGANTE ====== */}
-      <section className="relative bg-black text-white py-24 px-4 overflow-hidden">
-        {/* Patrón decorativo */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-red-600 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-red-600 rounded-full blur-3xl" />
+    <main className="min-h-screen overflow-hidden bg-white text-gray-900">
+
+      {/* HERO */}
+      <section className="relative isolate overflow-hidden bg-[#111111] px-5 py-24 text-white md:py-32">
+
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute -right-32 -top-40 h-[450px] w-[450px] rounded-full bg-red-700/20 blur-[120px]" />
+          <div className="absolute -bottom-40 -left-32 h-[400px] w-[400px] rounded-full bg-red-600/10 blur-[110px]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/50" />
         </div>
-        
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <p className="text-red-500 uppercase tracking-[0.3em] text-xs font-semibold mb-4">
-            Consultoría HNV
-          </p>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Éxito Personal
+
+        <div className="relative mx-auto max-w-5xl text-center">
+
+          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-5 py-2">
+            <Sparkles size={14} className="text-red-400" />
+            <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-red-300">
+              Consultoría HNV
+            </span>
+          </div>
+
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-7xl">
+            Éxito <span className="text-red-500">Personal</span>
           </h1>
-          <div className="w-24 h-1 bg-red-600 mx-auto mb-6" />
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Acompañamiento individual para transformar en acciones concretas 
+
+          <div className="mx-auto my-7 h-1 w-20 rounded-full bg-red-600" />
+
+          <p className="mx-auto max-w-2xl text-base leading-8 text-gray-300 md:text-xl">
+            Acompañamiento individual para transformar en acciones concretas
             lo aprendido en nuestra Masterclass gratuita.
           </p>
-        </div>
-      </section>
 
-      {/* ====== INTRODUCCIÓN ====== */}
-      <section className="container mx-auto max-w-4xl px-4 py-20">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-10 md:p-12">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center">
-              <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-bold text-black">¿En qué consiste?</h2>
-          </div>
+          <a
+            href="#reserva"
+            className="group mt-9 inline-flex items-center gap-3 rounded-full bg-red-600 px-8 py-4 text-sm font-bold text-white shadow-xl shadow-red-950/30 transition-all duration-300 hover:-translate-y-1 hover:bg-red-700"
+          >
+            Reserva tu sesión
+            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+          </a>
 
-          <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p>
-              La Consultoría Personal HNV es un servicio de coaching y acompañamiento individual 
-              diseñado para ayudarte a transformar en acciones concretas lo aprendido en nuestra 
-              Masterclass gratuita de desarrollo personal y resolución de problemas.
-            </p>
-            <p>
-              A través de sesiones personalizadas, trabajamos contigo para identificar tus objetivos, 
-              comprender los obstáculos que pueden estar frenando tu avance y construir un plan de 
-              acción adaptado a tu realidad.
-            </p>
-            <p>
-              El acompañamiento puede enfocarse en autoconocimiento, desarrollo personal, organización 
-              de objetivos, toma de decisiones, disciplina, resolución de problemas y estrategias para 
-              avanzar hacia tu propia definición del éxito.
-            </p>
-          </div>
-
-          <div className="mt-8 bg-linear-to-r from-red-50 to-transparent border-l-4 border-red-600 p-6 rounded-r-lg">
-            <p className="text-gray-800 font-semibold italic">
-              "La Masterclass te entrega conocimientos. El acompañamiento personal te ayuda a aplicarlos a tu propia vida."
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ====== ÁREAS DE TRABAJO ====== */}
-      <section className="bg-white py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <p className="text-red-600 uppercase tracking-[0.3em] text-xs font-semibold mb-4">
-              Áreas de acompañamiento
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-black mb-6">
-              ¿En qué podemos trabajar juntos?
-            </h2>
-            <div className="w-24 h-1 bg-red-600 mx-auto" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { titulo: 'Autoconocimiento', desc: 'Descubre tus fortalezas, valores y áreas de crecimiento personal.' },
-              { titulo: 'Desarrollo personal', desc: 'Construye hábitos y herramientas para tu crecimiento continuo.' },
-              { titulo: 'Organización de objetivos', desc: 'Define metas claras y traza un plan de acción realista.' },
-              { titulo: 'Toma de decisiones', desc: 'Aprende a decidir con claridad y confianza en tu proceso.' },
-              { titulo: 'Disciplina', desc: 'Desarrolla la constancia necesaria para alcanzar tus metas.' },
-              { titulo: 'Resolución de problemas', desc: 'Enfrenta los obstáculos con estrategias prácticas y efectivas.' }
-            ].map((area, index) => (
-              <div 
-                key={index}
-                className="bg-gray-50 rounded-xl p-6 border border-gray-100 hover:border-red-200 hover:shadow-md transition-all duration-300"
-              >
-                <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center mb-4">
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-bold text-black mb-2">{area.titulo}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{area.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ====== CÓMO FUNCIONA ====== */}
-      <section className="container mx-auto max-w-5xl px-4 py-20">
-        <div className="text-center mb-12">
-          <p className="text-red-600 uppercase tracking-[0.3em] text-xs font-semibold mb-4">
-            Proceso
+          <p className="mt-6 text-xs tracking-wide text-gray-400">
+            Un espacio para avanzar hacia tu mejor versión
           </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-black mb-6">
-            ¿Cómo funciona?
-          </h2>
-          <div className="w-24 h-1 bg-red-600 mx-auto" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-black text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-              1
-            </div>
-            <h3 className="text-lg font-bold text-black mb-2">Reserva tu sesión</h3>
-            <p className="text-gray-600 text-sm">
-              Realiza el pago a través de PayPal y agenda tu sesión personalizada.
-            </p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 bg-black text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-              2
-            </div>
-            <h3 className="text-lg font-bold text-black mb-2">Sesión individual</h3>
-            <p className="text-gray-600 text-sm">
-              Espacio de escucha, orientación y planificación centrado en tus necesidades.
-            </p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 bg-black text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-              3
-            </div>
-            <h3 className="text-lg font-bold text-black mb-2">Plan de acción</h3>
-            <p className="text-gray-600 text-sm">
-              Construimos juntos un plan adaptado a tu realidad y objetivos.
-            </p>
-          </div>
         </div>
       </section>
-      
-      {/* ====== PAGO ====== */}
-      <section className="container mx-auto max-w-4xl px-4 pb-20">
-        <div className="bg-linear-to-br from-black to-gray-900 rounded-2xl p-10 md:p-12 text-center relative overflow-hidden">
-          {/* Patrón decorativo */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-3xl opacity-20" />
-          
-          <div className="relative z-10">
-            <p className="text-red-500 uppercase tracking-[0.3em] text-xs font-semibold mb-4">
-              Comienza ahora
-            </p>
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Reserva tu sesión
-            </h3>
-            <p className="text-gray-400 text-sm mb-8 max-w-xl mx-auto">
-              Realiza el pago y comienza tu proceso de acompañamiento personalizado con HNV.
-            </p>
-            
-            <a 
-              href="https://www.paypal.com/ncp/payment/EX2PXPU2TSSBL" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-full font-bold text-lg transition transform hover:scale-105 shadow-xl"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.86a.641.641 0 0 1 .633-.536h6.718c2.182 0 3.867.448 5.006 1.332 1.139.884 1.708 2.185 1.708 3.906 0 .756-.11 1.482-.328 2.178-.219.696-.57 1.343-1.053 1.942-.484.598-1.098 1.093-1.842 1.485-.744.392-1.62.588-2.628.588h-2.356l-1.19 7.516a.641.641 0 0 1-.633.536z"/>
-              </svg>
-              Pagar y agendar sesión
-            </a>
 
-            <p className="text-gray-500 text-xs mt-6">
-              Valor de la sesión: $100.000 CLP
+
+      {/* INTRODUCCIÓN */}
+      <section className="bg-gray-50 px-5 py-16 md:py-24">
+
+        <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[0.8fr_1.2fr]">
+
+          <div>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">
+              Acompañamiento individual
+            </span>
+
+            <h2 className="mt-4 text-3xl font-extrabold leading-tight text-gray-950 md:text-4xl">
+              Tu crecimiento comienza con una decisión.
+            </h2>
+
+            <div className="mt-5 h-1 w-16 rounded-full bg-red-600" />
+
+            <p className="mt-6 leading-8 text-gray-600">
+              Un proceso pensado para ayudarte a llevar tus ideas,
+              conocimientos y objetivos a la práctica.
             </p>
+          </div>
+
+          <div className="rounded-3xl border border-gray-100 bg-white p-7 shadow-sm md:p-10">
+
+            <div className="mb-7 flex items-center gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-red-600">
+                <Target size={25} />
+              </div>
+
+              <h3 className="text-2xl font-bold text-gray-950">
+                ¿En qué consiste?
+              </h3>
+            </div>
+
+            <div className="space-y-5 leading-8 text-gray-600">
+              <p>
+                La Consultoría Personal HNV es un servicio de coaching y
+                acompañamiento individual diseñado para ayudarte a
+                transformar en acciones concretas lo aprendido en nuestra
+                Masterclass gratuita.
+              </p>
+
+              <p>
+                A través de sesiones personalizadas, trabajamos contigo
+                para identificar tus objetivos, comprender los obstáculos
+                y construir un plan de acción adaptado a tu realidad.
+              </p>
+            </div>
+
+            <div className="mt-8 rounded-r-xl border-l-4 border-red-600 bg-red-50 px-6 py-5">
+              <p className="text-sm font-semibold italic leading-7 text-gray-800 md:text-base">
+                "La Masterclass te entrega conocimientos. El acompañamiento
+                personal te ayuda a aplicarlos."
+              </p>
+            </div>
+
           </div>
         </div>
       </section>
 
-    </div>
+
+      {/* ÁREAS DE TRABAJO */}
+      <section className="bg-white px-5 py-16 md:py-24">
+
+        <div className="mx-auto max-w-6xl">
+
+          <div className="mb-12 text-center">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">
+              Tu proceso de crecimiento
+            </span>
+
+            <h2 className="mt-3 text-3xl font-extrabold text-gray-950 md:text-4xl">
+              ¿En qué podemos trabajar?
+            </h2>
+
+            <p className="mx-auto mt-4 max-w-xl text-gray-500">
+              Cada proceso es diferente. Identificamos contigo las áreas
+              que necesitas fortalecer.
+            </p>
+
+            <div className="mx-auto mt-6 h-1 w-16 rounded-full bg-red-600" />
+          </div>
+
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+            {areas.map((area, index) => {
+              const Icon = area.icon
+
+              return (
+                <div
+                  key={area.titulo}
+                  className="group rounded-2xl border border-gray-100 bg-gray-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:bg-white hover:shadow-xl"
+                >
+
+                  <div className="mb-6 flex items-center justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-red-600 shadow-sm transition-colors duration-300 group-hover:bg-red-600 group-hover:text-white">
+                      <Icon size={23} />
+                    </div>
+
+                    <span className="text-xs font-bold tracking-widest text-gray-300">
+                      0{index + 1}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-bold text-gray-950">
+                    {area.titulo}
+                  </h3>
+
+                  <p className="mt-2 text-sm leading-6 text-gray-500">
+                    {area.desc}
+                  </p>
+
+                  <div className="mt-6 h-0.5 w-8 rounded-full bg-red-600 transition-all duration-300 group-hover:w-14" />
+                </div>
+              )
+            })}
+
+          </div>
+        </div>
+      </section>
+
+
+      {/* CÓMO FUNCIONA */}
+      <section className="bg-gray-50 px-5 py-16 md:py-24">
+
+        <div className="mx-auto max-w-6xl">
+
+          <div className="mb-14 text-center">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">
+              Un proceso sencillo
+            </span>
+
+            <h2 className="mt-3 text-3xl font-extrabold text-gray-950 md:text-4xl">
+              ¿Cómo funciona?
+            </h2>
+
+            <div className="mx-auto mt-5 h-1 w-16 rounded-full bg-red-600" />
+          </div>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+
+            {pasos.map((paso, index) => {
+              const Icon = paso.icon
+
+              return (
+                <div key={paso.num} className="relative text-center">
+
+                  <div className="relative mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-[#151515] text-white shadow-xl">
+                    <Icon size={30} className="text-red-400" />
+
+                    <span className="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full border-4 border-gray-50 bg-red-600 text-xs font-bold text-white">
+                      {paso.num}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-gray-950">
+                    {paso.titulo}
+                  </h3>
+
+                  <p className="mt-2 text-sm text-gray-500">
+                    {paso.desc}
+                  </p>
+
+                  {index !== 2 && (
+                    <div className="absolute left-[65%] top-10 hidden h-px w-[70%] bg-gray-200 md:block" />
+                  )}
+
+                </div>
+              )
+            })}
+
+          </div>
+        </div>
+      </section>
+
+
+      {/* RESERVA Y PAGO */}
+      <section id="reserva" className="bg-white px-5 py-16 md:py-24">
+
+        <div className="mx-auto max-w-5xl">
+
+          <div className="relative isolate overflow-hidden rounded-[2rem] bg-[#111111] px-6 py-14 text-center shadow-2xl sm:px-12 md:py-16">
+
+            <div className="absolute -right-20 -top-32 -z-10 h-80 w-80 rounded-full bg-red-600/20 blur-[90px]" />
+            <div className="absolute -bottom-32 -left-20 -z-10 h-80 w-80 rounded-full bg-red-700/15 blur-[90px]" />
+
+            <div className="relative">
+
+              <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-red-500/30 bg-red-500/10 text-red-400">
+                <CalendarDays size={27} />
+              </div>
+
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-400">
+                Da el siguiente paso
+              </span>
+
+              <h2 className="mt-4 text-3xl font-extrabold text-white md:text-4xl">
+                Reserva tu sesión
+              </h2>
+
+              <p className="mx-auto mt-4 max-w-xl leading-7 text-gray-400">
+                Comienza tu proceso de acompañamiento personal y convierte
+                tus objetivos en un plan de acción.
+              </p>
+
+              <div className="mx-auto my-8 max-w-sm rounded-2xl border border-white/10 bg-white/[0.05] p-6">
+
+                <p className="text-sm text-gray-400">
+                  Valor de la sesión
+                </p>
+
+                <p className="mt-2 text-4xl font-extrabold tracking-tight text-white md:text-5xl">
+                  $100.000
+                </p>
+
+                <p className="mt-1 text-sm font-semibold tracking-widest text-red-400">
+                  CLP
+                </p>
+
+              </div>
+
+              <a
+                href="https://www.paypal.com/ncp/payment/EX2PXPU2TSSBL"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex w-full max-w-sm items-center justify-center gap-3 rounded-full bg-red-600 px-8 py-4 font-bold text-white shadow-lg shadow-red-950/30 transition-all duration-300 hover:-translate-y-1 hover:bg-red-700 hover:shadow-xl"
+              >
+                Pagar y agendar
+                <ArrowRight size={19} className="transition-transform group-hover:translate-x-1" />
+              </a>
+
+              <div className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
+                <ShieldCheck size={16} className="text-green-400" />
+                <span>Pago a través de PayPal</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
   )
 }

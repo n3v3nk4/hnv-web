@@ -1,87 +1,268 @@
+
 import Image from 'next/image'
 import MetodosPago from '@/components/MetodosPago'
+import {
+  BookOpen,
+  Users,
+  Heart,
+  ArrowDown,
+  Building2,
+  Sparkles
+} from 'lucide-react'
+
+const pilares = [
+  {
+    titulo: 'Educación',
+    descripcion: 'Formación, capacitación y desarrollo de habilidades.',
+    icon: BookOpen,
+    numero: '01'
+  },
+  {
+    titulo: 'Acompañamiento',
+    descripcion: 'Orientación y apoyo personalizado.',
+    icon: Users,
+    numero: '02'
+  },
+  {
+    titulo: 'Bienestar',
+    descripcion: 'Espacios y programas para el bienestar físico y emocional.',
+    icon: Heart,
+    numero: '03'
+  }
+]
 
 export default function Proyecto() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      
-      {/* ENCABEZADO */}
-      <section className="bg-black text-white py-16 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Nuestro Proyecto</h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+    <main className="min-h-screen overflow-hidden bg-white text-gray-900">
+
+      {/* HERO */}
+      <section className="relative isolate overflow-hidden bg-[#111111] px-5 py-24 text-white md:py-32">
+
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute -right-32 -top-40 h-[450px] w-[450px] rounded-full bg-red-700/20 blur-[120px]" />
+          <div className="absolute -bottom-40 -left-32 h-[400px] w-[400px] rounded-full bg-red-600/10 blur-[110px]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/40" />
+        </div>
+
+        <div className="mx-auto max-w-5xl text-center">
+
+          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-5 py-2">
+            <Building2 size={15} className="text-red-400" />
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-red-300">
+              Fundación HNV
+            </span>
+          </div>
+
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-7xl">
+            Nuestro <span className="text-red-500">Proyecto</span>
+          </h1>
+
+          <div className="mx-auto my-7 h-1 w-20 rounded-full bg-red-600" />
+
+          <p className="mx-auto max-w-2xl text-base leading-8 text-gray-300 md:text-xl">
             Campus Comunitarios HNV — Un ecosistema para el desarrollo integral
           </p>
+
+          <a
+            href="#campus"
+            className="group mt-9 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-red-500 hover:bg-red-600"
+          >
+            Conoce nuestro proyecto
+            <ArrowDown size={17} className="transition-transform group-hover:translate-y-1" />
+          </a>
+
         </div>
       </section>
 
-      {/* CONTENIDO */}
-      <section className="container mx-auto max-w-5xl px-4 py-12">
-        
-        {/* Imagen del Campus */}
-        <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden shadow-xl mb-12">
-          <Image 
-            src="/campus.jpg" 
-            alt="Campus Comunitario HNV" 
-            fill 
-            sizes="(max-width: 768px) 100vw, 80vw" 
-            className="object-cover object-center" 
-            priority 
-          />
-        </div>
 
-        {/* Texto descriptivo */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 md:p-12 mb-12">
-          <h2 className="text-2xl font-bold text-black mb-4">El Gran Proyecto: Campus Comunitario HNV</h2>
-          <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p>
-              Todo esto se hará realidad mediante grandes campus comunitarios estructurados como un verdadero ecosistema, que constituyen nuestro gran proyecto de construcción.
+      {/* CAMPUS COMUNITARIO */}
+      <section id="campus" className="bg-gray-50 px-5 py-16 md:py-24">
+
+        <div className="mx-auto max-w-6xl">
+
+          {/* Encabezado */}
+          <div className="mb-10 text-center">
+
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">
+              Nuestra visión
+            </span>
+
+            <h2 className="mt-3 text-3xl font-extrabold text-gray-950 md:text-4xl">
+              El Gran Proyecto
+            </h2>
+
+            <p className="mt-3 text-lg font-medium text-gray-500">
+              Campus Comunitario HNV
             </p>
-            <p>
-              Allí, cada persona encontrará un entorno bien equipado con herramientas, programas, servicios y oportunidades necesarias para desarrollar plenamente su potencial, mejorar su calidad de vida y estar preparada para contribuir al desarrollo de la comunidad en la que vive.
-            </p>
-          </div>
-        </div>
 
-        {/* 3 Tarjetas */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
-            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-bold text-black mb-2">Educación</h3>
-            <p className="text-gray-600 text-sm">Formación, capacitación y desarrollo de habilidades.</p>
-          </div>
-          
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
-            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-bold text-black mb-2">Acompañamiento</h3>
-            <p className="text-gray-600 text-sm">Orientación y apoyo personalizado.</p>
-          </div>
-          
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
-            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-bold text-black mb-2">Bienestar</h3>
-            <p className="text-gray-600 text-sm">Espacios y programas para el bienestar físico y emocional.</p>
-          </div>
-        </div>
+            <div className="mx-auto mt-5 h-1 w-16 rounded-full bg-red-600" />
 
-        {/* MÉTODOS DE PAGO */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <MetodosPago />
-        </div>
+          </div>
 
+          {/* Imagen original */}
+          <div className="group relative mb-12 h-[280px] w-full overflow-hidden rounded-3xl bg-gray-200 shadow-xl sm:h-[380px] md:h-[520px]">
+
+            <Image
+              src="/campus.jpg"
+              alt="Campus Comunitario HNV"
+              fill
+              sizes="(max-width: 768px) 100vw, 1200px"
+              className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
+              priority
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+            <div className="absolute bottom-0 left-0 p-6 sm:p-10">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/30 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-sm">
+                <Sparkles size={14} className="text-red-400" />
+                Desarrollo integral
+              </span>
+
+              <h3 className="mt-4 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
+                Un espacio para crecer y construir comunidad
+              </h3>
+            </div>
+
+          </div>
+
+          {/* Descripción */}
+          <div className="grid items-start gap-8 rounded-3xl border border-gray-100 bg-white p-7 shadow-sm md:grid-cols-[0.7fr_1.3fr] md:p-12">
+
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">
+                Nuestra iniciativa
+              </span>
+
+              <h3 className="mt-3 text-2xl font-extrabold leading-tight text-gray-950 md:text-3xl">
+                El desarrollo de las personas es el centro de nuestra visión.
+              </h3>
+
+              <div className="mt-5 h-1 w-14 rounded-full bg-red-600" />
+            </div>
+
+            <div className="space-y-5 text-base leading-8 text-gray-600">
+
+              <p>
+                Todo esto se hará realidad mediante grandes campus comunitarios
+                estructurados como un verdadero ecosistema, que constituyen
+                nuestro gran proyecto de construcción.
+              </p>
+
+              <p>
+                Allí, cada persona encontrará un entorno bien equipado con
+                herramientas, programas, servicios y oportunidades necesarias
+                para desarrollar plenamente su potencial, mejorar su calidad
+                de vida y estar preparada para contribuir al desarrollo de
+                la comunidad en la que vive.
+              </p>
+
+            </div>
+          </div>
+
+        </div>
       </section>
-    </div>
+
+
+      {/* PILARES DEL PROYECTO */}
+      <section className="bg-white px-5 py-16 md:py-24">
+
+        <div className="mx-auto max-w-6xl">
+
+          <div className="mb-12 text-center">
+
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">
+              Nuestro compromiso
+            </span>
+
+            <h2 className="mt-3 text-3xl font-extrabold text-gray-950 md:text-4xl">
+              Los pilares de nuestro proyecto
+            </h2>
+
+            <p className="mx-auto mt-4 max-w-xl leading-7 text-gray-500">
+              Un ecosistema que integra distintas áreas para contribuir
+              al desarrollo integral de las personas y sus comunidades.
+            </p>
+
+            <div className="mx-auto mt-6 h-1 w-16 rounded-full bg-red-600" />
+
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+
+            {pilares.map((pilar) => {
+              const Icon = pilar.icon
+
+              return (
+                <article
+                  key={pilar.numero}
+                  className="group rounded-2xl border border-gray-100 bg-gray-50 p-8 transition-all duration-300 hover:-translate-y-2 hover:border-red-200 hover:bg-white hover:shadow-xl"
+                >
+
+                  <div className="mb-7 flex items-center justify-between">
+
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-red-600 shadow-sm transition-colors duration-300 group-hover:bg-red-600 group-hover:text-white">
+                      <Icon size={27} />
+                    </div>
+
+                    <span className="text-sm font-bold tracking-widest text-gray-300">
+                      {pilar.numero}
+                    </span>
+
+                  </div>
+
+                  <h3 className="text-xl font-bold text-gray-950">
+                    {pilar.titulo}
+                  </h3>
+
+                  <p className="mt-3 text-sm leading-7 text-gray-500">
+                    {pilar.descripcion}
+                  </p>
+
+                  <div className="mt-7 h-1 w-10 rounded-full bg-red-600 transition-all duration-300 group-hover:w-16" />
+
+                </article>
+              )
+            })}
+
+          </div>
+        </div>
+      </section>
+
+
+      {/* MÉTODOS DE PAGO */}
+      <section className="bg-gray-50 px-5 py-16 md:py-20">
+
+        <div className="mx-auto max-w-5xl">
+
+          <div className="mb-10 text-center">
+
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">
+              Apoya nuestra iniciativa
+            </span>
+
+            <h2 className="mt-3 text-3xl font-extrabold text-gray-950 md:text-4xl">
+              Sé parte del proyecto
+            </h2>
+
+            <p className="mx-auto mt-4 max-w-xl leading-7 text-gray-500">
+              Tu aporte contribuye a impulsar nuestra visión de desarrollo
+              y bienestar comunitario.
+            </p>
+
+            <div className="mx-auto mt-5 h-1 w-16 rounded-full bg-red-600" />
+
+          </div>
+
+          <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm sm:p-10">
+
+            <MetodosPago />
+
+          </div>
+
+        </div>
+      </section>
+
+    </main>
   )
 }
