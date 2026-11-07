@@ -39,7 +39,6 @@ export default function HazteMiembro() {
       beneficios: [
         'Masterclass gratuita',
         'Descuentos en eventos',
-        'Acceso a actividades exclusivas',
       ],
       link: 'https://mpago.la/2iu3HWY',
     },
@@ -52,8 +51,6 @@ export default function HazteMiembro() {
       beneficios: [
         'Todo el plan Comunidad',
         'Masaje relajante trimestral',
-        'Certificados de participación',
-        'Asesoría personalizada',
       ],
       link: 'https://mpago.la/2vERYZQ',
     },
@@ -66,7 +63,6 @@ export default function HazteMiembro() {
         'Todo el plan Desarrollo',
         'Acceso directo a la fundadora',
         'Eventos VIP',
-        'Reconocimiento especial',
       ],
       link: 'https://mpago.la/1EUvzmY',
     },
@@ -102,7 +98,7 @@ export default function HazteMiembro() {
           </div>
 
           <h1 className="mb-6 text-5xl font-extrabold tracking-tight md:text-7xl">
-            Hazte miembro<span className="text-red-600">.</span>
+            Hazte <span className="text-red-600">miembro</span>
           </h1>
 
           <div className="mx-auto mb-7 h-1 w-20 rounded-full bg-red-600" />
